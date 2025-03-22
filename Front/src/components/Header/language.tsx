@@ -1,11 +1,8 @@
-import * as React from 'react';
-
 import {
     Select,
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
@@ -13,7 +10,7 @@ import {
 export function LanguageSelect() {
     return (
         <Select>
-            <SelectTrigger className="w-fit rounded-none border border-black">
+            <SelectTrigger className="w-full rounded-none border border-black">
                 <SelectValue placeholder="Az" />
             </SelectTrigger>
             <SelectContent className="rounded-none border border-black ">

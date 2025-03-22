@@ -1,4 +1,3 @@
-import React from 'react';
 import HeaderSelect from './Select';
 import { Link } from 'react-router-dom';
 import PopUP from './PopUP';
@@ -17,7 +16,10 @@ export default function Nawbar() {
                     Fooror
                 </h2>
             </Link>
-            <ul className="lg:flex flex-row lg:gap-4 pt-[10px] hidden  text-base  font-[500] text-[#222222] items-center h-full">
+            <ul className="lg:flex flex-row lg:gap-4 pt-[10px] hidden  xl:text-base min-lg:text-[12px]  font-[500] text-nowrap text-[#222222] items-center h-full">
+                <li>
+                    <Link to={'/'}>Home</Link>
+                </li>
                 <li className="h-full">
                     <HeaderSelect
                         title="Xidmətlərimiz"
@@ -58,6 +60,9 @@ export default function Nawbar() {
                 </li>
                 <li>
                     <Link to={'/blogs'}>Blog</Link>
+                </li>
+                <li>
+                    <Link to={'/blogs'}>Contact</Link>
                 </li>
                 <li>
                     <Link to={'/worcks'}>Portfolio</Link>

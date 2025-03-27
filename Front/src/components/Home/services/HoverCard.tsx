@@ -1,5 +1,4 @@
 import { ButtonLink } from '@/components/Buttons';
-import React from 'react';
 
 const HoverCard = ({
     index,

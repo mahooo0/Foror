@@ -1,9 +1,9 @@
-import React from 'react';
+import { scrollToId } from '@/helpers/Scroll/ScrollTo';
 import { Link } from 'react-router-dom';
 
 export default function Footer() {
     return (
-        <footer className="bg-[#222222] font_base lg:px-[100px] md:px-[60px] px-[12px] mt-[100px] py-[60px] text-white">
+        <footer className="bg-[#222222] sticky top-0 font_base lg:px-[100px] md:px-[60px] px-[12px] mt-[100px] py-[60px] text-white">
             <div className="flex flex-row flex-wrap justify-between max-md:flex-col gap-10">
                 <div className="flex flex-col justify-between gap-5 ">
                     <div>
@@ -24,11 +24,13 @@ export default function Footer() {
                     </div>
                     <div className="text-[14px] font-normal">
                         <p className="text-[14px] font-semibold">contact</p>
-                        <p>+994 055 266 07 28</p>
+                        <Link to={'/ +994 055 266 07 28'}>
+                            <p>+994 055 266 07 28</p>
+                        </Link>
                         <p>info@relume.io</p>
                     </div>
                     <div className="flex flex-row gap-3">
-                        {Array.from({ length: 5 }).map((item, i) => (
+                        {Array.from({ length: 5 }).map((_, i) => (
                             <Link to={'/'}>
                                 <img
                                     key={i}
@@ -44,14 +46,27 @@ export default function Footer() {
                     <nav className="flex flex-col gap-2 font-semibold text-[16px]">
                         <p className="text-[24px] ">Routing</p>
                         <Link to={'/'}>Home</Link>
-                        <Link to={'/'}>Price List</Link>
-                        <Link to={'/'}>Haqqımızda</Link>
-                        <Link to={'/'}>Blog</Link>
-                        <Link to={'/'}>Contact</Link>
+                        <Link to={'/about'}>Haqqımızda</Link>
+                        <Link to={'/about-development'}>
+                            Proqramlasdirma haqqinda
+                        </Link>
+                        <Link to={'/price-list'}>Price List</Link>
+                        <button
+                            className="w-fit"
+                            onClick={() => {
+                                scrollToId('contact');
+                            }}
+                        >
+                            Contact
+                        </button>
+                        <Link to={'/blogs'}>Blog</Link>
+                        <Link to={'/worcks'}>Portfolio</Link>
                     </nav>
                     <nav className="flex flex-col gap-2 font-semibold text-[16px]">
                         <p className="text-[24px] ">Services</p>
-                        <Link to={'/'}>Veb saytların hazırlanması</Link>
+                        <Link to={'/worcks/id'}>
+                            Veb saytların hazırlanması
+                        </Link>
                         <Link to={'/'}>Veb saytlara texniki dəstək</Link>
                         <Link to={'/'}>Korporativ mail xidməti</Link>
                         <Link to={'/'}>Online ödəmə sistemi inteqrasiyası</Link>
@@ -62,12 +77,7 @@ export default function Footer() {
                 LEST MAKE A FOROR
             </div>
             <div className="w-full border-t border-white text-[14px] flex flex-row justify-between pt-[32px]  flex-wrap gap-2">
-                <p>© 2024 Relume. All rights reserved.</p>
-                <div className=" underline  flex flex-row gap-3 flex-wrap">
-                    <p>Privacy Policy</p>
-                    <p>Terms of Service</p>
-                    <p>Cookies Settings</p>
-                </div>
+                <p>© 2025 Fooror. All rights reserved.</p>
             </div>
         </footer>
     );

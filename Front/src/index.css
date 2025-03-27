@@ -111,6 +111,9 @@
     --color-sidebar-ring: var(--sidebar-ring);
 }
 
+[data-scroll-container] {
+    height: 100%;
+}
 @layer base {
     * {
         @apply border-border outline-ring/50;
@@ -120,3 +123,6 @@
     }
 }
 @import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+.fade-up-in {
+    opacity: 1 !important;
+}

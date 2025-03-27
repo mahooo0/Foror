@@ -1,21 +1,24 @@
 import HeaderSelect from './Select';
 import { Link } from 'react-router-dom';
 import PopUP from './PopUP';
+import { scrollToId } from '@/helpers/Scroll/ScrollTo';
 
 export default function Nawbar() {
     return (
         <nav className="flex flex-row xl:gap-6 gap-4  h-full items-center">
-            <Link to={'/'} className="flex flex-row gap-2 items-center ">
+            <div className="flex flex-row gap-2 items-center ">
                 <PopUP />
-                <img
-                    src="/images/logo.png"
-                    alt=""
-                    className="h-[47px] max-sm:h-[30px]"
-                />
-                <h2 className="font_base text-[32px] max-sm:text-[20px] block max-xl:hidden max-lg:block ">
-                    Fooror
-                </h2>
-            </Link>
+                <Link to={'/'} className="flex flex-row gap-2 items-center ">
+                    <img
+                        src="/images/logo.png"
+                        alt=""
+                        className="h-[47px] max-sm:h-[30px]"
+                    />
+                    <h2 className="font_base text-[32px] max-sm:text-[20px] block max-xl:hidden max-lg:block ">
+                        Fooror
+                    </h2>
+                </Link>
+            </div>
             <ul className="lg:flex flex-row lg:gap-4 pt-[10px] hidden  xl:text-base min-lg:text-[12px]  font-[500] text-nowrap text-[#222222] items-center h-full">
                 <li>
                     <Link to={'/'}>Home</Link>
@@ -62,7 +65,14 @@ export default function Nawbar() {
                     <Link to={'/blogs'}>Blog</Link>
                 </li>
                 <li>
-                    <Link to={'/blogs'}>Contact</Link>
+                    <button
+                        className="cursor-pointer"
+                        onClick={() => {
+                            scrollToId('contact');
+                        }}
+                    >
+                        Contact
+                    </button>
                 </li>
                 <li>
                     <Link to={'/worcks'}>Portfolio</Link>

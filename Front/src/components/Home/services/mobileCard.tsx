@@ -1,5 +1,4 @@
 import { ButtonLink } from '@/components/Buttons';
-import React from 'react';
 
 export default function MobileCard({ isBlack }: { isBlack: boolean }) {
     if (isBlack) {

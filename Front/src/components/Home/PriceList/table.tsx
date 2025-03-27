@@ -1,4 +1,5 @@
-import { Button } from '@/components/ui/button';
+'use client'; // if using Next.js App Router
+
 import {
     Card,
     CardContent,
@@ -6,6 +7,12 @@ import {
     CardHeader,
 } from '@/components/ui/card';
 import { Check } from 'lucide-react';
+import { motion, useAnimation } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { useEffect } from 'react';
+import { BlackBtn } from '@/components/Buttons';
+import { StoreState, useStore } from '@/helpers/StateManegment';
+import { scrollToId } from '@/helpers/Scroll/ScrollTo';
 
 interface PricingPlan {
     name: string;
@@ -63,52 +70,86 @@ export default function PricingTable() {
     ];
 
     return (
-        <div className="container py-10  ">
+        <div className="container py-10">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {plans.map((plan, index) => (
-                    <Card
-                        key={index}
-                        className="border border-gray-200 justify-between"
-                    >
-                        <CardHeader className="pb-0">
-                            <h3 className="text-center text-sm font-medium">
-                                {plan.name}
-                            </h3>
-                            <div className="mt-2 text-center">
-                                <span className="text-4xl font-bold">
-                                    ${plan.price}
-                                </span>
-                                <span className="text-sm text-gray-500">
-                                    /mo
-                                </span>
-                            </div>
-                            <p className="mt-1 text-center text-xs text-gray-500">
-                                or ${plan.yearly} yearly
-                            </p>
-                        </CardHeader>
-                        <CardContent className="pt-6 ">
-                            <ul className="space-y-3 flex flex-col items-center">
-                                {plan.features.map((feature, featureIndex) => (
-                                    <li
-                                        key={featureIndex}
-                                        className="flex items-start"
-                                    >
-                                        <Check className="mr-2 h-5 w-5 shrink-0 text-black" />
-                                        <span className="text-sm">
-                                            {feature}
-                                        </span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </CardContent>
-                        <CardFooter>
-                            <Button className="w-full bg-black text-white hover:bg-gray-800">
-                                Get started
-                            </Button>
-                        </CardFooter>
-                    </Card>
+                    <AnimatedCard key={index} index={index} plan={plan} />
                 ))}
             </div>
         </div>
     );
 }
+
+// 👇 Animate each card with fade-up effect
+const AnimatedCard = ({
+    plan,
+    index,
+}: {
+    plan: PricingPlan;
+    index: number;
+}) => {
+    const controls = useAnimation();
+    const [ref, inView] = useInView({
+        triggerOnce: true,
+        threshold: 0.2,
+    });
+
+    useEffect(() => {
+        if (inView) {
+            controls.start('visible');
+        }
+    }, [controls, inView]);
+
+    const setSelectedPriceVariant = useStore(
+        (state: StoreState) => state.setSelectedPriceVariant
+    );
+    return (
+        <motion.div
+            ref={ref}
+            initial="hidden"
+            animate={controls}
+            transition={{ duration: 0.5, delay: index * 0.15 }}
+            variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0 },
+            }}
+        >
+            <Card className="border border-gray-200 justify-between h-full flex flex-col">
+                <CardHeader className="pb-0">
+                    <h3 className="text-center text-sm font-medium">
+                        {plan.name}
+                    </h3>
+                    <div className="mt-2 text-center">
+                        <span className="text-4xl font-bold">
+                            ${plan.price}
+                        </span>
+                        <span className="text-sm text-gray-500">/mo</span>
+                    </div>
+                    <p className="mt-1 text-center text-xs text-gray-500">
+                        or ${plan.yearly} yearly
+                    </p>
+                </CardHeader>
+                <CardContent className="pt-6 flex-1">
+                    <ul className="space-y-3 flex flex-col items-center">
+                        {plan.features.map((feature, featureIndex) => (
+                            <li key={featureIndex} className="flex items-start">
+                                <Check className="mr-2 h-5 w-5 shrink-0 text-black" />
+                                <span className="text-sm">{feature}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </CardContent>
+                <CardFooter>
+                    <BlackBtn
+                        action={() => {
+                            setSelectedPriceVariant(index + 1);
+                            scrollToId('contact');
+                        }}
+                        text=" Get started"
+                        className="w-full  "
+                    ></BlackBtn>
+                </CardFooter>
+            </Card>
+        </motion.div>
+    );
+};

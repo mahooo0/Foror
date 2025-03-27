@@ -5,3 +5,16 @@
 body {
     font-family: 'Funnel Display', sans-serif;
 }
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.text-inner-shadow {
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3),
+        -1px -1px 0 rgba(255, 255, 255, 0.2);
+}

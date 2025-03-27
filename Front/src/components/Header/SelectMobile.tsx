@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
+import { useStore } from '@/helpers/StateManegment';
 
 export default function MobileSelect({
     title = 'title',
@@ -10,6 +11,7 @@ export default function MobileSelect({
     options?: { title: string; link: string }[];
 }) {
     const [isPopUpOpen, setIsPopUpOpen] = useState<boolean>(false);
+    const setIsOpen = useStore((state: any) => state.setIsMobilePOPupOpen);
 
     return (
         <div className="flex flex-col  items-start w-full h-full justify-center">
@@ -36,7 +38,12 @@ export default function MobileSelect({
                 }`}
             >
                 {options.map((item, i) => (
-                    <Link to={item.link} key={i} className="w-full">
+                    <Link
+                        to={item.link}
+                        key={i}
+                        className="w-full"
+                        onClick={() => setIsOpen(false)}
+                    >
                         <div className="flex flex-row gap-3 hover:bg-black/10 flex-nowrap w-full px-3 overflow-hidden">
                             <img src="/svg/relume.svg" className="w-5" alt="" />
                             <p>{item.title} </p>

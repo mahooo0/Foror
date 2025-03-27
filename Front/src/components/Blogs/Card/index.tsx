@@ -19,11 +19,9 @@ type BlogCardProps = {
 export const BlogCard: React.FC<BlogCardProps> = ({
     image,
     url,
-    category,
-    readTime,
+
     title,
     description,
-    button,
 }) => {
     return (
         <div className="flex size-full flex-col items-center justify-start">

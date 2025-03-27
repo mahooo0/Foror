@@ -10,7 +10,7 @@ export default function Nawbar() {
                 <PopUP />
                 <Link to={'/'} className="flex flex-row gap-2 items-center ">
                     <img
-                        src="/images/logo.png"
+                        src="/svg/logoMain.svg"
                         alt=""
                         className="h-[47px] max-sm:h-[30px]"
                     />

@@ -1,4 +1,3 @@
-import { BlackBtn } from '@/components/Buttons';
 import Card1 from './Card1';
 import Card2 from './Card2';
 import Card3 from './Card3';
@@ -24,7 +23,6 @@ export default function PrefeSection() {
                         <h2 className="text-5xl max-sm:text-2xl font-bold w-fit">
                             Perfect for{' '}
                         </h2>
-                        <BlackBtn text="Qiymet teklifi al" />
                     </>
                 )}
             </header>

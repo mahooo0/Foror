@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import ProjectCard from '../ProjectCard';
 import WhiteBtn from '@/components/Buttons';
 
@@ -5,13 +6,7 @@ export default function WorcksSection() {
     const loading = false;
 
     return (
-        <section
-            data-scroll-section
-            className="flex flex-col items-center opacity-0 transition-all duration-700 ease-in-out"
-            data-scroll
-            data-scroll-class="fade-up-in"
-            data-scroll-offset="20%"
-        >
+        <section className="flex flex-col items-center transition-all duration-700 ease-in-out">
             <header className="flex flex-col items-center gap-4 text-[#222222] mb-10 lg:px-[100px] md:px-[60px] px-[12px]">
                 {loading ? (
                     <div className="w-full flex flex-col items-center gap-3 animate-pulse">
@@ -48,7 +43,11 @@ export default function WorcksSection() {
                 )}
             </div>
 
-            {!loading && <WhiteBtn text="Show more" className="mt-5" />}
+            {!loading && (
+                <Link to={'/worcks'}>
+                    <WhiteBtn text="Show more" className="mt-5" />
+                </Link>
+            )}
         </section>
     );
 }

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import WhiteBtn from '@/components/Buttons';
+import { Link } from 'react-router-dom';
 
 // {prolog?:string,img?:string, title?:string, description?:string}
 export default function AboutSection() {
@@ -47,10 +48,12 @@ export default function AboutSection() {
                             dolor interdum nulla, ut commodo diam libero vitae
                             erat.
                         </p>
-                        <WhiteBtn
-                            text="Read more"
-                            className="w-fit font-sans !px-8 !py-5 shadow-2xl rounded-[8px] !text-[18px] max-sm:!px-[24px] max-sm:!py-[12px] max-sm:!text-[14px]"
-                        />
+                        <Link to={'/about'}>
+                            <WhiteBtn
+                                text="Read more"
+                                className="w-fit font-sans !px-8 !py-5 shadow-2xl rounded-[8px] !text-[18px] max-sm:!px-[24px] max-sm:!py-[12px] max-sm:!text-[14px]"
+                            />
+                        </Link>
                     </>
                 )}
             </article>

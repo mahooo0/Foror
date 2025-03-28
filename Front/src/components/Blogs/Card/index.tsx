@@ -29,7 +29,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
                 <img
                     src={image.src}
                     alt={image.alt || 'blog image'}
-                    className="aspect-video size-full object-cover"
+                    className="aspect-video size-full object-cover rounded-xl"
                 />
             </a>
 

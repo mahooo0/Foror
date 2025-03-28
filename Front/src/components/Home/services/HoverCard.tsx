@@ -38,9 +38,9 @@ const HoverCard = ({
                     {/* Smooth fade-in for paragraph */}
                     <div className="h-auto overflow-hidden 2xl:max-w-[600px] xl:max-w-[500px] lg:max-w-[400px] md:max-w-[260px]">
                         <p
-                            className={`ml-[60px] 2xl:text-2xl xl:text-xl lg:text-lg md:text-sm   transition-all duration-300 transform ${
+                            className={`ml-[60px] 2xl:text-xl xl:text-lg: lg:text-md md:text-sm   transition-all duration-300 transform ${
                                 hoveredIndex === 1
-                                    ? 'opacity-100 translate-y-0'
+                                    ? 'opacity-60 translate-y-0'
                                     : 'opacity-0 -translate-y-1'
                             }`}
                         >
@@ -53,7 +53,7 @@ const HoverCard = ({
                     <div className="h-auto overflow-hidden">
                         <ButtonLink
                             text="Ətraflı"
-                            className={`ml-[60px] !px-0 transition-all duration-300 transform 2xl:!text-xl xl:!text-lg lg:!text-base md:!text-sm ${
+                            className={`ml-[60px] !px-0 transition-all duration-300 transform text-base ${
                                 hoveredIndex === 1
                                     ? 'opacity-100 translate-y-0'
                                     : 'opacity-0 -translate-y-1'
@@ -90,9 +90,9 @@ const HoverCard = ({
                     {/* Smooth fade-in for paragraph */}
                     <div className="h-auto overflow-hidden 2xl:max-w-[600px] xl:max-w-[500px] lg:max-w-[400px] md:max-w-[260px]">
                         <p
-                            className={`mr-[60px] text-end 2xl:text-2xl xl:text-xl lg:text-lg md:text-sm transition-all duration-300 transform ${
+                            className={`mr-[60px] text-end 2xl:text-xl xl:text-lg: lg:text-md md:text-sm  transition-all duration-300 transform ${
                                 hoveredIndex === 2
-                                    ? 'opacity-100 translate-y-0'
+                                    ? 'opacity-60 translate-y-0'
                                     : 'opacity-0 -translate-y-1'
                             }`}
                         >
@@ -105,7 +105,7 @@ const HoverCard = ({
                     <div className="h-auto overflow-hidden">
                         <ButtonLink
                             text="Ətraflı"
-                            className={`mr-[60px] text-end !px-0 transition-all duration-300 transform  2xl:!text-xl xl:!text-lg lg:!text-base md:!text-sm ${
+                            className={`mr-[60px] text-end !px-0 transition-all duration-300 transform  text-base ${
                                 hoveredIndex === 2
                                     ? 'opacity-100 translate-y-0'
                                     : 'opacity-0 -translate-y-1'
@@ -146,7 +146,7 @@ const HoverCard = ({
                     >
                         <ButtonLink
                             text="Ətraflı"
-                            className="text-start !px-0 transition-all duration-300  2xl:!text-xl xl:!text-lg lg:!text-base md:!text-sm"
+                            className="text-start !px-0 transition-all duration-300  text-base"
                         />
                     </div>
 
@@ -158,7 +158,7 @@ const HoverCard = ({
                                 : 'max-h-0 opacity-0 translate-y-4'
                         }`}
                     >
-                        <p className="text-start t2xl:text-2xl xl:text-xl lg:text-lg md:text-sm">
+                        <p className="text-start 2xl:text-xl xl:text-lg: opacity-60 lg:text-md md:text-sm ">
                             We take on no more than 3 projects per month,
                             ensuring we give you our full attention.
                         </p>
@@ -208,7 +208,7 @@ const HoverCard = ({
                     >
                         <ButtonLink
                             text="Ətraflı"
-                            className="text-start !px-0 transition-all duration-300  2xl:!text-xl xl:!text-lg lg:!text-base md:!text-sm"
+                            className="text-start !px-0 transition-all duration-300  text-base"
                         />
                     </div>
 
@@ -220,7 +220,7 @@ const HoverCard = ({
                                 : 'max-h-0 opacity-0 translate-y-4'
                         }`}
                     >
-                        <p className="text-end 2xl:text-2xl xl:text-xl lg:text-lg md:text-sm ">
+                        <p className="text-end 2xl:text-xl xl:text-lg: lg:text-md md:text-sm  opacity-60 ">
                             We take on no more than 3 projects per month,
                             ensuring we give you our full attention.
                         </p>

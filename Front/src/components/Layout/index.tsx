@@ -2,8 +2,11 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Header from '../Header';
 import Footer from '../Footer';
 import ContactUsSection from '../Home/Contact';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
+import { Toaster } from 'react-hot-toast';
+import LocomotiveScroll from 'locomotive-scroll';
+import 'locomotive-scroll/dist/locomotive-scroll.css';
 
 const Layout = () => {
     const location = useLocation();
@@ -24,7 +27,20 @@ const Layout = () => {
 
         runAnimation();
     }, [location.pathname]);
+    const scrollRef = useRef<HTMLDivElement | null>(null);
+    const scrollInstance = useRef<any>(null);
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollInstance.current = new LocomotiveScroll({
+                el: scrollRef.current,
+                smooth: true,
+            } as any);
+        }
 
+        return () => {
+            if (scrollInstance.current) scrollInstance.current.destroy();
+        };
+    }, []);
     return (
         <motion.div
             animate={controls}
@@ -32,13 +48,11 @@ const Layout = () => {
             className="flex flex-col min-h-screen"
         >
             <Header />
-
-            <main className="flex-grow">
+            <main className="flex-grow" data-scroll-container ref={scrollRef}>
                 {showContent && <Outlet />} {/* Only show after fade-out */}
             </main>
-
             <ContactUsSection />
-            <Footer />
+            <Footer /> <Toaster />
         </motion.div>
     );
 };

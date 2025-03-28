@@ -103,6 +103,9 @@ const AnimatedCard = ({
     const setSelectedPriceVariant = useStore(
         (state: StoreState) => state.setSelectedPriceVariant
     );
+
+    const isGradient = index === 2; // Only first 3 cards get gradient border
+
     return (
         <motion.div
             ref={ref}
@@ -114,42 +117,53 @@ const AnimatedCard = ({
                 visible: { opacity: 1, y: 0 },
             }}
         >
-            <Card className="border border-gray-200 justify-between h-full flex flex-col">
-                <CardHeader className="pb-0">
-                    <h3 className="text-center text-sm font-medium">
-                        {plan.name}
-                    </h3>
-                    <div className="mt-2 text-center">
-                        <span className="text-4xl font-bold">
-                            ${plan.price}
-                        </span>
-                        <span className="text-sm text-gray-500">/mo</span>
-                    </div>
-                    <p className="mt-1 text-center text-xs text-gray-500">
-                        or ${plan.yearly} yearly
-                    </p>
-                </CardHeader>
-                <CardContent className="pt-6 flex-1">
-                    <ul className="space-y-3 flex flex-col items-center">
-                        {plan.features.map((feature, featureIndex) => (
-                            <li key={featureIndex} className="flex items-start">
-                                <Check className="mr-2 h-5 w-5 shrink-0 text-black" />
-                                <span className="text-sm">{feature}</span>
-                            </li>
-                        ))}
-                    </ul>
-                </CardContent>
-                <CardFooter>
-                    <BlackBtn
-                        action={() => {
-                            setSelectedPriceVariant(index + 1);
-                            scrollToId('contact');
-                        }}
-                        text=" Get started"
-                        className="w-full  "
-                    ></BlackBtn>
-                </CardFooter>
-            </Card>
+            <div
+                className={
+                    isGradient
+                        ? 'bg-gradient-to-br from-[#E6D535] to-[#E53535] p-[2px] rounded-2xl h-full'
+                        : ' h-full'
+                }
+            >
+                <Card className="border border-gray-200 justify-between h-full flex flex-col rounded-2xl">
+                    <CardHeader className="pb-0">
+                        <h3 className="text-center text-sm font-medium">
+                            {plan.name}
+                        </h3>
+                        <div className="mt-2 text-center">
+                            <span className="text-4xl font-bold">
+                                ${plan.price}
+                            </span>
+                            <span className="text-sm text-gray-500">/mo</span>
+                        </div>
+                        <p className="mt-1 text-center text-xs text-gray-500">
+                            or ${plan.yearly} yearly
+                        </p>
+                    </CardHeader>
+                    <CardContent className="pt-6 flex-1">
+                        <ul className="space-y-3 flex flex-col items-center">
+                            {plan.features.map((feature, featureIndex) => (
+                                <li
+                                    key={featureIndex}
+                                    className="flex items-start"
+                                >
+                                    <Check className="mr-2 h-5 w-5 shrink-0 text-black" />
+                                    <span className="text-sm">{feature}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </CardContent>
+                    <CardFooter>
+                        <BlackBtn
+                            action={() => {
+                                setSelectedPriceVariant(index + 1);
+                                scrollToId('contact');
+                            }}
+                            text=" Get started"
+                            className="w-full"
+                        />
+                    </CardFooter>
+                </Card>
+            </div>
         </motion.div>
     );
 };

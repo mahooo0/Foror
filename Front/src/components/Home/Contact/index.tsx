@@ -141,21 +141,35 @@ export default function ContactUsSection() {
                             <label htmlFor="selectField" className="text-base">
                                 SELECT OPTION
                             </label>
-                            <div className="h-[48px] w-full border rounded-lg border-[#222222] bg-white">
-                                <select
-                                    value={SelectedPriceVariant}
-                                    onChange={(e) =>
-                                        setSelectedPriceVariant(+e.target.value)
-                                    }
-                                    name="selectField"
-                                    id="selectField"
-                                    className="w-full h-full text-base px-[12px] border-transparent border-r-[16px]"
-                                >
-                                    <option value="0">Select an option</option>
-                                    <option value="2">Option One</option>
-                                    <option value="3">Option Two</option>
-                                    <option value="4">Option Three</option>
-                                </select>
+                            <div className="w-full ">
+                                <div className="relative h-[48px] w-full rounded-[8px] bg-gradient-to-r from-[#E6D535] to-[#E53535] p-[2px]">
+                                    <div className="h-full w-full bg-white rounded-[8px] border-r-[16px] border-white">
+                                        <select
+                                            value={SelectedPriceVariant}
+                                            onChange={(e) =>
+                                                setSelectedPriceVariant(
+                                                    +e.target.value
+                                                )
+                                            }
+                                            name="selectField"
+                                            id="selectField"
+                                            className="w-full h-full text-base px-[12px] rounded-[8px] border-0 focus:ring-0 focus:outline-none bg-transparent "
+                                        >
+                                            <option value="0">
+                                                Select an option
+                                            </option>
+                                            <option value="2">
+                                                Option One
+                                            </option>
+                                            <option value="3">
+                                                Option Two
+                                            </option>
+                                            <option value="4">
+                                                Option Three
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     )}

@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import WhiteBtn from '@/components/Buttons';
+import { Link } from 'react-router-dom';
 
 export default function AboutDevelopmentSection() {
     const ref = useRef(null);
@@ -66,10 +67,12 @@ export default function AboutDevelopmentSection() {
                             elit. Suspendisse varius enim in eros elementum
                             tristique...
                         </p>
-                        <WhiteBtn
-                            text="Read more"
-                            className="w-fit font-sans !px-8 !py-5 shadow-2xl rounded-[8px] !text-[18px] max-sm:!px-[24px] max-sm:!py-[12px] max-sm:!text-[14px]"
-                        />
+                        <Link to={'/about-development'}>
+                            <WhiteBtn
+                                text="Read more"
+                                className="w-fit font-sans !px-8 !py-5 shadow-2xl rounded-[8px] !text-[18px] max-sm:!px-[24px] max-sm:!py-[12px] max-sm:!text-[14px]"
+                            />
+                        </Link>
                     </>
                 )}
             </motion.article>

@@ -36,7 +36,7 @@ export default function ProjectCard() {
                         className="focus-visible:ring-border-primary whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0 mt-6 flex items-center justify-center gap-x-1"
                         title="Read more"
                     >
-                        Read more
+                        Life site
                         <svg
                             stroke="currentColor"
                             fill="none"

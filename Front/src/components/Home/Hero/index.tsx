@@ -1,4 +1,6 @@
 import { BlackBtn } from '@/components/Buttons';
+import { scrollToId } from '@/helpers/Scroll/ScrollTo';
+import { motion } from 'framer-motion';
 
 // {prolog?:string, title?:string, description?:string}
 export default function Hero() {
@@ -43,9 +45,7 @@ export default function Hero() {
                                 commodo diam libero vitae erat.
                             </h2>
                             <BlackBtn
-                                action={() => {
-                                    alert('Qiymət təklifi al');
-                                }}
+                                action={() => scrollToId('contact')}
                                 text="Qiymət təklifi al"
                                 className="w-fit font-sans !px-8 !py-5 shadow-2xl rounded-[8px] !text-[18px] max-sm:!px-[24px] max-sm:!py-[12px] max-sm:!text-[14px]"
                             />
@@ -55,12 +55,18 @@ export default function Hero() {
 
                 {!loading && (
                     <>
-                        <img
+                        <motion.img
+                            initial={{ y: 100, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 1.2, ease: 'easeOut' }}
                             src="/images/heroLg.png"
                             alt=""
                             className="sm:block hidden xl:w-[70%] w-full"
                         />
-                        <img
+                        <motion.img
+                            initial={{ y: 100, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 1.2, ease: 'easeOut' }}
                             src="/images/heroSm.png"
                             alt=""
                             className="max-sm:block hidden w-[70%]"

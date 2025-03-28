@@ -1,3 +1,11 @@
+import BlogDetailHero from '@/components/BlogDetail/Hero';
+import BlogsSwipper from '@/components/BlogDetail/Swipper';
+
 export default function BlogDetail() {
-    return <div>BlogDetail</div>;
+    return (
+        <div>
+            <BlogDetailHero />
+            <BlogsSwipper />
+        </div>
+    );
 }

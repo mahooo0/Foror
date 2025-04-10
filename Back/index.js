@@ -14,7 +14,9 @@ app.use(cors());
 //routers start
 app.use('/admin', adminRouter);
 app.use('/api', ApiRouter);
-//routers end
+app.get('/', function (req, res) {
+    res.send('Hello World');
+}); //routers end
 
 // Start the Express server
 app.listen(3000, () => {

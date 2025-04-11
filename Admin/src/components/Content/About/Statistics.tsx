@@ -12,25 +12,27 @@ import instanceAxios from '@/helpers/axios';
 import { TableDemo } from '@/components/Table';
 import { ForumWrapper } from '@/components/Inputs/ForumWrapper';
 import { TextInput } from '@/components/Inputs/Text';
+import { DeleteModal } from '@/components/DeleteModal';
 
 export default function TranslatesContent() {
     const [open, setOpen] = useState(false);
     const [Id, setId] = useState('');
     const [currentLanguage] = useAtom(LangAtom);
     const queryClient = useQueryClient();
+    const [Delopen, setDelOpen] = useState(false);
 
     // Fetch translations data
     const { data: translateData } = GETRequest<any[]>(
-        'translations',
-        'translations',
+        'statistics',
+        'statistics',
         []
     );
 
     const structure = [
-        { HeadTitle: 'Key', key: ['key'], type: 'str' as 'str' },
+        { HeadTitle: 'value', key: ['value'], type: 'str' as 'str' },
         {
-            HeadTitle: 'Value',
-            key: ['value', currentLanguage],
+            HeadTitle: 'desctiption',
+            key: ['desctiption', currentLanguage],
             type: 'str' as 'str',
         },
     ];
@@ -43,21 +45,30 @@ export default function TranslatesContent() {
     const handleSubmit = async (data: any) => {
         try {
             if (Id) {
-                await instanceAxios.put(`translations/${Id}`, {
-                    value: data.value,
-                });
+                await instanceAxios.put(`statistics/${Id}`, data);
                 toast.success('Translation edited successfully');
             } else {
-                await instanceAxios.post('translations', data);
+                await instanceAxios.post('statistics', data);
                 toast.success('Translation created successfully');
             }
-            queryClient.invalidateQueries({ queryKey: ['translations'] });
+            queryClient.invalidateQueries({ queryKey: ['statistics'] });
             closeForm();
         } catch (error) {
             toast.error('Something went wrong');
         }
     };
-
+    const handleDelete = async () => {
+        try {
+            instanceAxios.delete(`statistics/${Id}`).then(() => {
+                toast.success('colabaration deleted successfully');
+                setDelOpen(false);
+                setId('');
+                queryClient.invalidateQueries({ queryKey: ['statistics'] });
+            });
+        } catch (error) {
+            toast.error('Something went wrong');
+        }
+    };
     const closeForm = () => {
         setOpen(false);
         setId('');
@@ -71,24 +82,43 @@ export default function TranslatesContent() {
                     data={translateData}
                     onEdit={handleEdit}
                     onAdd={() => setOpen(true)}
+                    onDelete={(id: string | number) => {
+                        setId(id as string);
+                        setDelOpen(true);
+                    }}
                 />
             )}
 
             {open && (
                 <ForumWrapper onClose={closeForm} onSubmit={handleSubmit}>
-                    {Id.length === 0 && <TextInput name="key" label="Key" />}
                     <TextInput
                         name="value"
-                        label="Value"
-                        isLang
+                        label="value"
                         defaultValue={
                             Id &&
                             translateData?.find((item) => item._id === Id)
                                 ?.value
                         }
                     />
+                    <TextInput
+                        name="desctiption"
+                        label="desctiption"
+                        isLang
+                        defaultValue={
+                            Id &&
+                            translateData?.find((item) => item._id === Id)
+                                ?.desctiption
+                        }
+                    />
                 </ForumWrapper>
             )}
+            <DeleteModal
+                isOpen={Delopen}
+                onClose={() => {
+                    setDelOpen(false), setId('');
+                }}
+                onDelete={handleDelete}
+            />
         </div>
     );
 }

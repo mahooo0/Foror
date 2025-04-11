@@ -7,17 +7,16 @@ import { ForumWrapper } from '@/components/Inputs/ForumWrapper';
 import { TextInput } from '@/components/Inputs/Text';
 import { SelectInput } from '@/components/Inputs/SelectInput';
 import { SingleImageInput } from '@/components/Inputs/SingleImage';
-import { PrimeEditor } from '@/components/Inputs/Quil';
 import { DeleteModal } from '@/components/DeleteModal';
+import { Description } from '@radix-ui/react-dialog';
 import { useAtom } from 'jotai';
 import { LangAtom } from '@/lib/State';
 import { useQueryClient } from '@tanstack/react-query';
 import GETRequest from '@/helpers/reques';
 import instanceAxios from '@/helpers/axios';
 import toast from 'react-hot-toast';
-import { log } from 'console';
 
-export default function SeoContent() {
+export default function HomeServicesContent() {
     const [open, setOpen] = useState(false);
     const [Delopen, setDelOpen] = useState(false);
     const [Id, setId] = useState('');
@@ -25,8 +24,12 @@ export default function SeoContent() {
     const queryClient = useQueryClient();
 
     // Fetch translations data
-    const { data: SeoData } = GETRequest<any[]>('seo', 'seo', []);
-    console.log('SeoData', SeoData);
+    const { data: PrefeData } = GETRequest<any[]>(
+        'home-services',
+        'home-services',
+        []
+    );
+    console.log('PrefeData', PrefeData);
     const closeForm = () => {
         setOpen(false);
         setId('');
@@ -35,51 +38,38 @@ export default function SeoContent() {
         console.log('data', data);
         try {
             if (Id) {
-                await instanceAxios.put(`seo/${Id}`, data);
-                toast.success('Seo edited successfully');
+                await instanceAxios.put(`home-services`, data);
+                toast.success('secvice edited successfully');
             } else {
-                await instanceAxios.post('seo', data).then(() => {
-                    console.log('Seo created successfully');
+                await instanceAxios.post('prefe', data).then(() => {
+                    console.log('prefe created successfully');
                 });
 
-                toast.success('Seo created successfully');
+                toast.success('prefe created successfully');
             }
-            queryClient.invalidateQueries({ queryKey: ['seo'] });
+            queryClient.invalidateQueries({ queryKey: ['prefe'] });
             closeForm();
         } catch (error) {
             toast.error('Something went wrong');
         }
     };
-    const handleDelete = async () => {
-        try {
-            instanceAxios.delete(`seo/${Id}`).then(() => {
-                toast.success('Seo deleted successfully');
-                setDelOpen(false);
-                setId('');
-                queryClient.invalidateQueries({ queryKey: ['seo'] });
-            });
-        } catch (error) {
-            toast.error('Something went wrong');
-        }
-    };
+
     // Convert object to array format with _id
 
     const structure = [
-        { HeadTitle: 'type', key: ['type'], type: 'str' as 'str' },
         {
-            HeadTitle: 'metaTitle',
-            key: ['metaTitle', currentLanguage],
+            HeadTitle: 'title',
+            key: ['title', currentLanguage],
             type: 'str' as 'str',
         },
         {
-            HeadTitle: 'metaDescription',
-            key: ['metaDescription', currentLanguage],
+            HeadTitle: 'description',
+            key: ['description', currentLanguage],
             type: 'str' as 'str',
         },
-
         {
-            HeadTitle: 'metaKeywords',
-            key: ['metaKeywords', currentLanguage],
+            HeadTitle: 'Spline_url',
+            key: ['spline_url'],
             type: 'str' as 'str',
         },
     ];
@@ -99,15 +89,11 @@ export default function SeoContent() {
         <div className="relative">
             {open || (
                 <>
-                    {SeoData && (
+                    {PrefeData && (
                         <TableDemo
                             structure={structure}
-                            data={SeoData}
+                            data={PrefeData}
                             onEdit={handleEdit}
-                            onAdd={() => {
-                                setOpen(true);
-                            }}
-                            onDelete={handleDelite}
                         />
                     )}
                 </>
@@ -121,40 +107,31 @@ export default function SeoContent() {
                     onSubmit={handleSubmit}
                 >
                     <TextInput
-                        name="type"
-                        label="type"
-                        defaultValue={
-                            Id && SeoData?.find((item) => item._id === Id)?.type
-                        }
-                    />
-
-                    <TextInput
-                        name="metaTitle"
-                        label="metaTitle"
+                        name="description"
+                        label="description"
                         isLang
                         defaultValue={
                             Id &&
-                            SeoData?.find((item) => item._id === Id)?.metaTitle
+                            PrefeData?.find((item) => item._id === Id)
+                                ?.description
                         }
                     />
                     <TextInput
-                        name="metaDescription"
-                        label="metaDescription"
+                        name="title"
+                        label="title"
                         isLang
                         defaultValue={
                             Id &&
-                            SeoData?.find((item) => item._id === Id)
-                                ?.metaDescription
+                            PrefeData?.find((item) => item._id === Id)?.title
                         }
                     />
                     <TextInput
-                        name="metaKeywords"
-                        label="metaKeywords"
-                        isLang
+                        name="spline_url"
+                        label="spline_url"
                         defaultValue={
                             Id &&
-                            SeoData?.find((item) => item._id === Id)
-                                ?.metaKeywords
+                            PrefeData?.find((item) => item._id === Id)
+                                ?.spline_url
                         }
                     />
                 </ForumWrapper>
@@ -164,7 +141,9 @@ export default function SeoContent() {
                 onClose={() => {
                     setDelOpen(false), setId('');
                 }}
-                onDelete={handleDelete}
+                onDelete={() => {
+                    setDelOpen(false), setId('');
+                }}
             />
         </div>
     );

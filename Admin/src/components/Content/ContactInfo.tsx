@@ -1,55 +1,75 @@
 'use client';
 
 import { TableDemo } from '@/components/Table';
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 import { ForumWrapper } from '@/components/Inputs/ForumWrapper';
 import { TextInput } from '@/components/Inputs/Text';
-import { SelectInput } from '@/components/Inputs/SelectInput';
-import { SingleImageInput } from '@/components/Inputs/SingleImage';
-import { PrimeEditor } from '@/components/Inputs/Quil';
+
+import { useAtom } from 'jotai';
+import { LangAtom } from '@/lib/State';
 import { DeleteModal } from '@/components/DeleteModal';
+import { SingleImageInput } from '@/components/Inputs/SingleImage';
+import { MultiSelectInput } from '@/components/Inputs/SearchSelect';
+import { PrimeEditor } from '../Inputs/Quil';
+import { features } from 'process';
+import { Description } from '@radix-ui/react-dialog';
+import { Multiple_text_Input } from '../Inputs/MultipleTextInput';
 import { useQueryClient } from '@tanstack/react-query';
 import GETRequest from '@/helpers/reques';
 import instanceAxios from '@/helpers/axios';
 import toast from 'react-hot-toast';
 
-export default function LogoContent() {
+export default function ContactInfoContent() {
     const [open, setOpen] = useState(false);
-    const [Delopen, setDelOpen] = useState(false);
     const [Id, setId] = useState('');
+    const [Delopen, setDelOpen] = useState(false);
+    const [currentLanguage] = useAtom(LangAtom);
     const queryClient = useQueryClient();
 
     // Fetch translations data
-    const { data: LogoData } = GETRequest<any[]>('logo', 'logo', []);
-    console.log('LogoData', LogoData);
-    const closeForm = () => {
-        setOpen(false);
-        setId('');
-    };
+    const { data: ContactInfos } = GETRequest<any[]>(
+        'contact-info',
+        'contact-info',
+        []
+    );
+
+    // Convert object to array format with _id
+
+    const structure = [
+        {
+            HeadTitle: 'title',
+            key: ['title'],
+            type: 'str' as 'str',
+        },
+
+        {
+            HeadTitle: 'image',
+            key: ['image'],
+            type: 'img' as 'img',
+        },
+    ];
     const handleSubmit = async (data: any) => {
-        const formData = new FormData();
         console.log('data', data);
+        const formData = new FormData();
+
+        formData.append('title', data.title);
 
         try {
             if (Id) {
-                formData.append('type', data.type);
                 if (data.image) {
                     formData.append('image', data.image);
                 }
-                await instanceAxios.put(`logo/${Id}`, formData);
+                await instanceAxios.put(`contact-info/${Id}`, formData);
                 toast.success('logo edited successfully');
             } else {
-                formData.append('type', data.type);
                 formData.append('image', data.image);
-
-                await instanceAxios.post('logo', formData).then(() => {
-                    console.log('logo created successfully');
+                await instanceAxios.post('contact-info', formData).then(() => {
+                    console.log('contact-info created successfully');
                 });
 
-                toast.success('logo created successfully');
+                toast.success('contact-info created successfully');
             }
-            queryClient.invalidateQueries({ queryKey: ['logo'] });
+            queryClient.invalidateQueries({ queryKey: ['contact-info'] });
             closeForm();
         } catch (error) {
             toast.error('Something went wrong');
@@ -57,43 +77,39 @@ export default function LogoContent() {
     };
     const handleDelete = async () => {
         try {
-            instanceAxios.delete(`logo/${Id}`).then(() => {
-                toast.success('Seo deleted successfully');
+            instanceAxios.delete(`contact-info/${Id}`).then(() => {
+                toast.success('colabaration deleted successfully');
                 setDelOpen(false);
                 setId('');
-                queryClient.invalidateQueries({ queryKey: ['logo'] });
+                queryClient.invalidateQueries({ queryKey: ['contact-info'] });
             });
         } catch (error) {
             toast.error('Something went wrong');
         }
     };
-
-    // Convert object to array format with _id
-
-    const structure = [
-        { HeadTitle: 'type', key: ['type'], type: 'str' as 'str' },
-        { HeadTitle: 'image', key: ['image'], type: 'img' as 'img' },
-    ];
-
-    const handleEdit = (id: string | number) => {
-        console.log('Edit:', id);
-        setId(id as string);
-        setOpen(true);
+    const closeForm = () => {
+        setOpen(false);
+        setId('');
     };
     const handleDelite = (id: string | number) => {
         console.log('Edit:', id);
         setId(id as string);
         setDelOpen(true);
     };
+    const handleEdit = (id: string | number) => {
+        console.log('Edit:', id);
+        setId(id as string);
+        setOpen(true);
+    };
 
     return (
         <div className="relative">
             {open || (
                 <>
-                    {LogoData && (
+                    {ContactInfos && (
                         <TableDemo
                             structure={structure}
-                            data={LogoData}
+                            data={ContactInfos}
                             onEdit={handleEdit}
                             onAdd={() => {
                                 setOpen(true);
@@ -112,11 +128,11 @@ export default function LogoContent() {
                     onSubmit={handleSubmit}
                 >
                     <TextInput
-                        name="type"
-                        label="type"
+                        name="title"
+                        label="title"
                         defaultValue={
                             Id &&
-                            LogoData?.find((item) => item._id === Id)?.type
+                            ContactInfos?.find((item) => item._id === Id)?.title
                         }
                     />
                     <SingleImageInput
@@ -124,7 +140,7 @@ export default function LogoContent() {
                         label="image"
                         defaultValue={
                             Id &&
-                            LogoData?.find((item) => item._id === Id)?.image
+                            ContactInfos?.find((item) => item._id === Id)?.image
                         }
                     />
                 </ForumWrapper>

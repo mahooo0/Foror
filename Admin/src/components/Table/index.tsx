@@ -39,14 +39,14 @@ export function TableDemo({ structure, data, onAdd, onEdit, onDelete }: Props) {
 
     return (
         <div className=" w-full">
-            <Table className="s">
+            <Table className=" border">
                 <TableCaption>Structured Data Table</TableCaption>
                 <TableHeader>
                     <TableRow>
                         {structure.map((item, idx) => (
                             <TableHead
                                 key={idx}
-                                className="text-start whitespace-nowrap "
+                                className="text-start whitespace-nowrap border "
                             >
                                 {item.HeadTitle}
                             </TableHead>
@@ -78,13 +78,13 @@ export function TableDemo({ structure, data, onAdd, onEdit, onDelete }: Props) {
                 </TableHeader>
                 <TableBody>
                     {data.map((item, rowIndex) => (
-                        <TableRow key={rowIndex} className="">
+                        <TableRow key={rowIndex} className=" ">
                             {structure.map((column, colIndex) => {
                                 const value = getNestedValue(item, column.key);
                                 return (
                                     <TableCell
                                         key={colIndex}
-                                        className="text-start "
+                                        className="text-start border "
                                     >
                                         {column.type === 'img' ? (
                                             <img

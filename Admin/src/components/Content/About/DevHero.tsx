@@ -11,12 +11,12 @@ import { PrimeEditor } from '@/components/Inputs/Quil';
 import { DeleteModal } from '@/components/DeleteModal';
 import { useAtom } from 'jotai';
 import { LangAtom } from '@/lib/State';
-import GETRequest from '@/helpers/reques';
 import { useQueryClient } from '@tanstack/react-query';
+import GETRequest from '@/helpers/reques';
 import instanceAxios from '@/helpers/axios';
 import toast from 'react-hot-toast';
 
-export default function HomeAboutContent() {
+export default function DevHeroContent() {
     const [open, setOpen] = useState(false);
     const [Delopen, setDelOpen] = useState(false);
     const [Id, setId] = useState('');
@@ -24,69 +24,11 @@ export default function HomeAboutContent() {
     const queryClient = useQueryClient();
 
     // Fetch translations data
-    const { data: HeroData } = GETRequest<any[]>(
-        'home-about',
-        'home-about',
+    const { data: Hero } = GETRequest<any[]>(
+        'about-dev-hero',
+        'about-dev-hero',
         []
     );
-    console.log('HeroData', HeroData);
-    const closeForm = () => {
-        setOpen(false);
-        setId('');
-    };
-    const handleSubmit = async (data: any) => {
-        const formData = new FormData();
-        console.log('data', data);
-        const strTitle = JSON.stringify(data.title);
-        const strPreTitle = JSON.stringify(data.preTitle);
-        const strdescription = JSON.stringify(data.description);
-        try {
-            if (Id) {
-                formData.append('title', strTitle);
-                formData.append('preTitle', strPreTitle);
-                formData.append('description', strdescription);
-                if (data.image) {
-                    formData.append('image', data.image);
-                }
-                await instanceAxios.put(`home-about`, formData);
-                toast.success('logo edited successfully');
-            } else {
-                formData.append('type', data.type);
-                formData.append('image', data.image);
-
-                await instanceAxios.post('logo', formData).then(() => {
-                    console.log('logo created successfully');
-                });
-
-                toast.success('logo created successfully');
-            }
-            queryClient.invalidateQueries({ queryKey: ['home-about'] });
-            closeForm();
-        } catch (error) {
-            toast.error('Something went wrong');
-        }
-    };
-    const Seo = [
-        {
-            _id: 'sss',
-            preTitle: {
-                az: 'velosiped',
-                en: 'Bike',
-                ru: 'велосипед',
-            },
-            Title: {
-                az: 'velosiped',
-                en: 'Bike',
-                ru: 'велосипед',
-            },
-            descriptron: {
-                az: 'velosiped',
-                en: 'Bike',
-                ru: 'велосипед',
-            },
-            img: 'ssss',
-        },
-    ];
 
     // Convert object to array format with _id
 
@@ -108,7 +50,56 @@ export default function HomeAboutContent() {
         },
         { HeadTitle: 'image', key: ['image'], type: 'img' as 'img' },
     ];
+    const handleSubmit = async (data: any) => {
+        console.log('data', data);
+        const formData = new FormData();
+        const strTitle = JSON.stringify(data.title);
+        const strdescription = JSON.stringify(data.description);
+        const strpreTitle = JSON.stringify(data.preTitle);
 
+        formData.append('title', strTitle);
+        formData.append('description', strdescription);
+        formData.append('preTitle', strpreTitle);
+        formData.append('spline_url_Lg', data.spline_url_Lg);
+        formData.append('spline_url__Md', data.spline_url__Md);
+
+        try {
+            if (Id) {
+                if (data.image) {
+                    formData.append('image', data.image);
+                }
+                await instanceAxios.put(`about-dev-hero`, formData);
+                toast.success('logo edited successfully');
+            } else {
+                formData.append('image', data.image);
+                await instanceAxios.post('social', formData).then(() => {
+                    console.log('social created successfully');
+                });
+
+                toast.success('social created successfully');
+            }
+            queryClient.invalidateQueries({ queryKey: ['about-dev-hero'] });
+            closeForm();
+        } catch (error) {
+            toast.error('Something went wrong');
+        }
+    };
+    const handleDelete = async () => {
+        try {
+            instanceAxios.delete(`social/${Id}`).then(() => {
+                toast.success('colabaration deleted successfully');
+                setDelOpen(false);
+                setId('');
+                queryClient.invalidateQueries({ queryKey: ['social'] });
+            });
+        } catch (error) {
+            toast.error('Something went wrong');
+        }
+    };
+    const closeForm = () => {
+        setOpen(false);
+        setId('');
+    };
     const handleEdit = (id: string | number) => {
         console.log('Edit:', id);
         setId(id as string);
@@ -124,10 +115,10 @@ export default function HomeAboutContent() {
         <div className="relative">
             {open || (
                 <>
-                    {HeroData && (
+                    {Hero && (
                         <TableDemo
                             structure={structure}
-                            data={HeroData}
+                            data={Hero}
                             onEdit={handleEdit}
                         />
                     )}
@@ -147,34 +138,50 @@ export default function HomeAboutContent() {
                         isLang
                         defaultValue={
                             Id &&
-                            HeroData?.find((item) => item._id === Id)?.preTitle
+                            Hero?.find((item) => item._id === Id)?.preTitle
                         }
                     />
                     <TextInput
                         name="title"
-                        label="title"
+                        label="Title"
                         isLang
                         defaultValue={
                             Id &&
-                            HeroData?.find((item) => item._id === Id)?.title
+                            Hero?.find((item) => item._id === Id)?.preTitle
                         }
                     />
                     <TextInput
+                        name="spline_url_Lg"
+                        label="spline_url_Lg"
+                        defaultValue={
+                            Id &&
+                            Hero?.find((item) => item._id === Id)?.spline_url_Lg
+                        }
+                    />
+                    <TextInput
+                        name="spline_url__Md"
+                        label="spline_url__Md"
+                        defaultValue={
+                            Id &&
+                            Hero?.find((item) => item._id === Id)
+                                ?.spline_url__Md
+                        }
+                    />
+
+                    <PrimeEditor
                         name="description"
                         label="description"
                         isLang
                         defaultValue={
                             Id &&
-                            HeroData?.find((item) => item._id === Id)
-                                ?.description
+                            Hero?.find((item) => item._id === Id)?.description
                         }
                     />
                     <SingleImageInput
                         name="image"
                         label="image"
                         defaultValue={
-                            Id &&
-                            HeroData?.find((item) => item._id === Id)?.image
+                            Id && Hero?.find((item) => item._id === Id)?.image
                         }
                     />
                 </ForumWrapper>

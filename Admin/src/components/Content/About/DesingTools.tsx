@@ -2,7 +2,7 @@
 
 import { TableDemo } from '@/components/Table';
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
+
 import { ForumWrapper } from '@/components/Inputs/ForumWrapper';
 import { TextInput } from '@/components/Inputs/Text';
 import { SelectInput } from '@/components/Inputs/SelectInput';
@@ -15,9 +15,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import GETRequest from '@/helpers/reques';
 import instanceAxios from '@/helpers/axios';
 import toast from 'react-hot-toast';
-import { log } from 'console';
 
-export default function SeoContent() {
+export default function DesingContent() {
     const [open, setOpen] = useState(false);
     const [Delopen, setDelOpen] = useState(false);
     const [Id, setId] = useState('');
@@ -25,26 +24,75 @@ export default function SeoContent() {
     const queryClient = useQueryClient();
 
     // Fetch translations data
-    const { data: SeoData } = GETRequest<any[]>('seo', 'seo', []);
-    console.log('SeoData', SeoData);
-    const closeForm = () => {
-        setOpen(false);
-        setId('');
-    };
+    const { data: DevTools } = GETRequest<any[]>(
+        'desing-tools',
+        'desing-tools',
+        []
+    );
+    const Seo = [
+        {
+            _id: 'sss',
+
+            Title: {
+                az: 'velosiped',
+                en: 'Bike',
+                ru: 'велосипед',
+            },
+            description: {
+                az: 'velosiped',
+                en: 'Bike',
+                ru: 'велосипед',
+            },
+            img: 'ssss',
+            imgbg: 'ssss',
+        },
+    ];
+
+    // Convert object to array format with _id
+
+    const structure = [
+        {
+            HeadTitle: 'title',
+            key: ['title', currentLanguage],
+            type: 'str' as 'str',
+        },
+        {
+            HeadTitle: 'description',
+            key: ['description', currentLanguage],
+            type: 'str' as 'str',
+        },
+        { HeadTitle: 'image', key: ['image'], type: 'img' as 'img' },
+        { HeadTitle: 'image_bg', key: ['image_bg'], type: 'img' as 'img' },
+    ];
     const handleSubmit = async (data: any) => {
         console.log('data', data);
+        const formData = new FormData();
+        const strTitle = JSON.stringify(data.title);
+        const strdescription = JSON.stringify(data.description);
+
+        formData.append('title', strTitle);
+        formData.append('description', strdescription);
+
         try {
             if (Id) {
-                await instanceAxios.put(`seo/${Id}`, data);
-                toast.success('Seo edited successfully');
+                if (data.image) {
+                    formData.append('image', data.image);
+                }
+                if (data.image_bg) {
+                    formData.append('image_bg', data.image_bg);
+                }
+                await instanceAxios.put(`desing-tools/${Id}`, formData);
+                toast.success('logo edited successfully');
             } else {
-                await instanceAxios.post('seo', data).then(() => {
-                    console.log('Seo created successfully');
+                formData.append('image', data.image);
+                formData.append('image_bg', data.image_bg);
+                await instanceAxios.post('desing-tools', formData).then(() => {
+                    console.log('social created successfully');
                 });
 
-                toast.success('Seo created successfully');
+                toast.success('desing-tools created successfully');
             }
-            queryClient.invalidateQueries({ queryKey: ['seo'] });
+            queryClient.invalidateQueries({ queryKey: ['desing-tools'] });
             closeForm();
         } catch (error) {
             toast.error('Something went wrong');
@@ -52,38 +100,20 @@ export default function SeoContent() {
     };
     const handleDelete = async () => {
         try {
-            instanceAxios.delete(`seo/${Id}`).then(() => {
-                toast.success('Seo deleted successfully');
+            instanceAxios.delete(`desing-tools/${Id}`).then(() => {
+                toast.success('colabaration deleted successfully');
                 setDelOpen(false);
                 setId('');
-                queryClient.invalidateQueries({ queryKey: ['seo'] });
+                queryClient.invalidateQueries({ queryKey: ['desing-tools'] });
             });
         } catch (error) {
             toast.error('Something went wrong');
         }
     };
-    // Convert object to array format with _id
-
-    const structure = [
-        { HeadTitle: 'type', key: ['type'], type: 'str' as 'str' },
-        {
-            HeadTitle: 'metaTitle',
-            key: ['metaTitle', currentLanguage],
-            type: 'str' as 'str',
-        },
-        {
-            HeadTitle: 'metaDescription',
-            key: ['metaDescription', currentLanguage],
-            type: 'str' as 'str',
-        },
-
-        {
-            HeadTitle: 'metaKeywords',
-            key: ['metaKeywords', currentLanguage],
-            type: 'str' as 'str',
-        },
-    ];
-
+    const closeForm = () => {
+        setOpen(false);
+        setId('');
+    };
     const handleEdit = (id: string | number) => {
         console.log('Edit:', id);
         setId(id as string);
@@ -99,10 +129,10 @@ export default function SeoContent() {
         <div className="relative">
             {open || (
                 <>
-                    {SeoData && (
+                    {DevTools && (
                         <TableDemo
                             structure={structure}
-                            data={SeoData}
+                            data={DevTools}
                             onEdit={handleEdit}
                             onAdd={() => {
                                 setOpen(true);
@@ -121,40 +151,39 @@ export default function SeoContent() {
                     onSubmit={handleSubmit}
                 >
                     <TextInput
-                        name="type"
-                        label="type"
+                        name="title"
+                        label="title"
+                        isLang
                         defaultValue={
-                            Id && SeoData?.find((item) => item._id === Id)?.type
+                            Id &&
+                            DevTools?.find((item) => item._id === Id)?.title
                         }
                     />
 
                     <TextInput
-                        name="metaTitle"
-                        label="metaTitle"
+                        name="description"
+                        label="description"
                         isLang
                         defaultValue={
                             Id &&
-                            SeoData?.find((item) => item._id === Id)?.metaTitle
+                            DevTools?.find((item) => item._id === Id)
+                                ?.description
                         }
                     />
-                    <TextInput
-                        name="metaDescription"
-                        label="metaDescription"
-                        isLang
+                    <SingleImageInput
+                        name="image"
+                        label="image"
                         defaultValue={
                             Id &&
-                            SeoData?.find((item) => item._id === Id)
-                                ?.metaDescription
+                            DevTools?.find((item) => item._id === Id)?.image
                         }
                     />
-                    <TextInput
-                        name="metaKeywords"
-                        label="metaKeywords"
-                        isLang
+                    <SingleImageInput
+                        name="image_bg"
+                        label="image_bg"
                         defaultValue={
                             Id &&
-                            SeoData?.find((item) => item._id === Id)
-                                ?.metaKeywords
+                            DevTools?.find((item) => item._id === Id)?.image_bg
                         }
                     />
                 </ForumWrapper>

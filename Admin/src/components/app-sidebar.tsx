@@ -19,6 +19,7 @@ import {
     SidebarMenuItem,
     SidebarRail,
 } from '@/components/ui/sidebar';
+import { Link } from 'react-router-dom';
 
 // This is sample data.
 const data = {
@@ -62,23 +63,128 @@ const data = {
                     url: '/app/Home_About',
                     isActive: false, // Add the isActive property
                 },
+                {
+                    title: 'About Dev',
+                    url: '/app/home_about_dev',
+                    isActive: false, // Add the isActive property
+                },
+                {
+                    title: 'Prefe For',
+                    url: '/app/Home_Prefe',
+                    isActive: false, // Add the isActive property
+                },
+                {
+                    title: 'Colabarete Companies',
+                    url: '/app/Colabarete_Companies',
+                    isActive: false, // Add the isActive property
+                },
+                {
+                    title: 'Services',
+                    url: '/app/Home_Services',
+                    isActive: false, // Add the isActive property
+                },
             ],
         },
-        // {
-        //     title: 'Getting Started',
-        //     url: '#',
-        //     items: [
-        //         {
-        //             title: 'Installation',
-        //             url: '#',
-        //         },
-        //         {
-        //             title: 'Project Structure',
-        //             url: '#',
-        //             isActive: false, // Add the isActive property
-        //         },
-        //     ],
-        // },
+        {
+            title: 'Protfolio',
+            url: '#',
+            items: [
+                {
+                    title: 'Category',
+                    url: '/app/partfolio-category',
+                },
+                {
+                    title: 'worcks',
+                    url: '/app/partfolio',
+                },
+            ],
+        },
+        {
+            title: 'Services',
+            url: '#',
+            items: [
+                {
+                    title: 'Services',
+                    url: '/app/services',
+                },
+            ],
+        },
+        {
+            title: 'Price List',
+            url: '#',
+            items: [
+                {
+                    title: 'prices',
+                    url: '/app/prices',
+                },
+                {
+                    title: ' featrues',
+                    url: '/app/prices-featrues',
+                },
+            ],
+        },
+        {
+            title: 'Contact',
+            url: '#',
+            items: [
+                {
+                    title: 'info',
+                    url: '/app/contact-info',
+                },
+                {
+                    title: 'socialmedia',
+                    url: '/app/socialmedia',
+                },
+                {
+                    title: 'users',
+                    url: '/app/contacts',
+                },
+            ],
+        },
+        {
+            title: 'blogs',
+            url: '#',
+            items: [
+                {
+                    title: 'blogs',
+                    url: '/app/blogs',
+                },
+            ],
+        },
+        {
+            title: 'About',
+            url: '#',
+            items: [
+                {
+                    title: 'Hero',
+                    url: '/app/about-Hero',
+                },
+                {
+                    title: 'Hero Dev',
+                    url: '/app/about-dev-hero',
+                },
+                {
+                    title: 'desing Tools',
+                    url: '/app/desing-tools',
+                },
+                {
+                    title: 'dev Tools',
+                    url: '/app/dev-tools',
+                },
+                {
+                    title: 'dev steps',
+                    url: '/app/dev-steps',
+                },
+                {
+                    title: 'statistics',
+                    url: '/app/statistics',
+                },
+                {
+                    title: 'Revue',
+                    url: '/app/revue',
+                },
+            ],
+        },
     ],
 };
 
@@ -112,16 +218,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             </SidebarGroupLabel>
                             <CollapsibleContent>
                                 <SidebarGroupContent>
-                                    <SidebarMenu>
+                                    <SidebarMenu className=" pl-3">
                                         {item.items.map((item) => (
                                             <SidebarMenuItem key={item.title}>
                                                 <SidebarMenuButton
                                                     asChild
                                                     isActive={item.isActive}
                                                 >
-                                                    <a href={item.url}>
+                                                    <Link to={item.url}>
                                                         {item.title}
-                                                    </a>
+                                                    </Link>
                                                 </SidebarMenuButton>
                                             </SidebarMenuItem>
                                         ))}

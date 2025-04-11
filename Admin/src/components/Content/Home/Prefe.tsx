@@ -1,55 +1,47 @@
 'use client';
 
 import { TableDemo } from '@/components/Table';
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { useState } from 'react';
+
 import { ForumWrapper } from '@/components/Inputs/ForumWrapper';
 import { TextInput } from '@/components/Inputs/Text';
-import { SelectInput } from '@/components/Inputs/SelectInput';
-import { SingleImageInput } from '@/components/Inputs/SingleImage';
-import { PrimeEditor } from '@/components/Inputs/Quil';
+
 import { DeleteModal } from '@/components/DeleteModal';
+import { useAtom } from 'jotai';
+import { LangAtom } from '@/lib/State';
 import { useQueryClient } from '@tanstack/react-query';
 import GETRequest from '@/helpers/reques';
 import instanceAxios from '@/helpers/axios';
 import toast from 'react-hot-toast';
 
-export default function LogoContent() {
+export default function HomePrefeContent() {
     const [open, setOpen] = useState(false);
     const [Delopen, setDelOpen] = useState(false);
     const [Id, setId] = useState('');
+    const [currentLanguage] = useAtom(LangAtom);
     const queryClient = useQueryClient();
 
     // Fetch translations data
-    const { data: LogoData } = GETRequest<any[]>('logo', 'logo', []);
-    console.log('LogoData', LogoData);
+    const { data: PrefeData } = GETRequest<any[]>('prefe', 'prefe', []);
+    console.log('PrefeData', PrefeData);
     const closeForm = () => {
         setOpen(false);
         setId('');
     };
     const handleSubmit = async (data: any) => {
-        const formData = new FormData();
         console.log('data', data);
-
         try {
             if (Id) {
-                formData.append('type', data.type);
-                if (data.image) {
-                    formData.append('image', data.image);
-                }
-                await instanceAxios.put(`logo/${Id}`, formData);
+                await instanceAxios.put(`prefe/${Id}`, data);
                 toast.success('logo edited successfully');
             } else {
-                formData.append('type', data.type);
-                formData.append('image', data.image);
-
-                await instanceAxios.post('logo', formData).then(() => {
-                    console.log('logo created successfully');
+                await instanceAxios.post('prefe', data).then(() => {
+                    console.log('prefe created successfully');
                 });
 
-                toast.success('logo created successfully');
+                toast.success('prefe created successfully');
             }
-            queryClient.invalidateQueries({ queryKey: ['logo'] });
+            queryClient.invalidateQueries({ queryKey: ['prefe'] });
             closeForm();
         } catch (error) {
             toast.error('Something went wrong');
@@ -57,11 +49,11 @@ export default function LogoContent() {
     };
     const handleDelete = async () => {
         try {
-            instanceAxios.delete(`logo/${Id}`).then(() => {
-                toast.success('Seo deleted successfully');
+            instanceAxios.delete(`prefe/${Id}`).then(() => {
+                toast.success('Prfeitem deleted successfully');
                 setDelOpen(false);
                 setId('');
-                queryClient.invalidateQueries({ queryKey: ['logo'] });
+                queryClient.invalidateQueries({ queryKey: ['prefe'] });
             });
         } catch (error) {
             toast.error('Something went wrong');
@@ -71,8 +63,11 @@ export default function LogoContent() {
     // Convert object to array format with _id
 
     const structure = [
-        { HeadTitle: 'type', key: ['type'], type: 'str' as 'str' },
-        { HeadTitle: 'image', key: ['image'], type: 'img' as 'img' },
+        {
+            HeadTitle: 'title',
+            key: ['title', currentLanguage],
+            type: 'str' as 'str',
+        },
     ];
 
     const handleEdit = (id: string | number) => {
@@ -85,19 +80,20 @@ export default function LogoContent() {
         setId(id as string);
         setDelOpen(true);
     };
+    const handleAdd = () => {
+        setOpen(true);
+    };
 
     return (
         <div className="relative">
             {open || (
                 <>
-                    {LogoData && (
+                    {PrefeData && (
                         <TableDemo
                             structure={structure}
-                            data={LogoData}
+                            data={PrefeData}
                             onEdit={handleEdit}
-                            onAdd={() => {
-                                setOpen(true);
-                            }}
+                            onAdd={handleAdd}
                             onDelete={handleDelite}
                         />
                     )}
@@ -112,19 +108,12 @@ export default function LogoContent() {
                     onSubmit={handleSubmit}
                 >
                     <TextInput
-                        name="type"
-                        label="type"
+                        name="title"
+                        label="title"
+                        isLang
                         defaultValue={
                             Id &&
-                            LogoData?.find((item) => item._id === Id)?.type
-                        }
-                    />
-                    <SingleImageInput
-                        name="image"
-                        label="image"
-                        defaultValue={
-                            Id &&
-                            LogoData?.find((item) => item._id === Id)?.image
+                            PrefeData?.find((item) => item._id === Id)?.title
                         }
                     />
                 </ForumWrapper>

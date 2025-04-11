@@ -2,7 +2,7 @@
 
 import { TableDemo } from '@/components/Table';
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
+
 import { ForumWrapper } from '@/components/Inputs/ForumWrapper';
 import { TextInput } from '@/components/Inputs/Text';
 import { SelectInput } from '@/components/Inputs/SelectInput';
@@ -11,13 +11,12 @@ import { PrimeEditor } from '@/components/Inputs/Quil';
 import { DeleteModal } from '@/components/DeleteModal';
 import { useAtom } from 'jotai';
 import { LangAtom } from '@/lib/State';
-import { useQueryClient } from '@tanstack/react-query';
 import GETRequest from '@/helpers/reques';
+import { useQueryClient } from '@tanstack/react-query';
 import instanceAxios from '@/helpers/axios';
 import toast from 'react-hot-toast';
-import { log } from 'console';
 
-export default function SeoContent() {
+export default function HomeAboutContent() {
     const [open, setOpen] = useState(false);
     const [Delopen, setDelOpen] = useState(false);
     const [Id, setId] = useState('');
@@ -25,63 +24,85 @@ export default function SeoContent() {
     const queryClient = useQueryClient();
 
     // Fetch translations data
-    const { data: SeoData } = GETRequest<any[]>('seo', 'seo', []);
-    console.log('SeoData', SeoData);
+    const { data: HeroData } = GETRequest<any[]>('rewue', 'rewue', []);
+    console.log('HeroData', HeroData);
     const closeForm = () => {
         setOpen(false);
         setId('');
     };
     const handleSubmit = async (data: any) => {
+        const formData = new FormData();
         console.log('data', data);
+        const strTitle = JSON.stringify(data.title);
+        const strPreTitle = JSON.stringify(data.preTitle);
+        const strdescription = JSON.stringify(data.description);
         try {
             if (Id) {
-                await instanceAxios.put(`seo/${Id}`, data);
-                toast.success('Seo edited successfully');
+                formData.append('title', strTitle);
+                formData.append('preTitle', strPreTitle);
+                formData.append('description', strdescription);
+                if (data.image) {
+                    formData.append('image', data.image);
+                }
+                await instanceAxios.put(`rewue`, formData);
+                toast.success('logo edited successfully');
             } else {
-                await instanceAxios.post('seo', data).then(() => {
-                    console.log('Seo created successfully');
+                formData.append('type', data.type);
+                formData.append('image', data.image);
+
+                await instanceAxios.post('logo', formData).then(() => {
+                    console.log('logo created successfully');
                 });
 
-                toast.success('Seo created successfully');
+                toast.success('logo created successfully');
             }
-            queryClient.invalidateQueries({ queryKey: ['seo'] });
+            queryClient.invalidateQueries({ queryKey: ['rewue'] });
             closeForm();
         } catch (error) {
             toast.error('Something went wrong');
         }
     };
-    const handleDelete = async () => {
-        try {
-            instanceAxios.delete(`seo/${Id}`).then(() => {
-                toast.success('Seo deleted successfully');
-                setDelOpen(false);
-                setId('');
-                queryClient.invalidateQueries({ queryKey: ['seo'] });
-            });
-        } catch (error) {
-            toast.error('Something went wrong');
-        }
-    };
+    const Seo = [
+        {
+            _id: 'sss',
+            preTitle: {
+                az: 'velosiped',
+                en: 'Bike',
+                ru: 'велосипед',
+            },
+            Title: {
+                az: 'velosiped',
+                en: 'Bike',
+                ru: 'велосипед',
+            },
+            descriptron: {
+                az: 'velosiped',
+                en: 'Bike',
+                ru: 'велосипед',
+            },
+            img: 'ssss',
+        },
+    ];
+
     // Convert object to array format with _id
 
     const structure = [
-        { HeadTitle: 'type', key: ['type'], type: 'str' as 'str' },
         {
-            HeadTitle: 'metaTitle',
-            key: ['metaTitle', currentLanguage],
+            HeadTitle: 'preTitle',
+            key: ['preTitle', currentLanguage],
             type: 'str' as 'str',
         },
         {
-            HeadTitle: 'metaDescription',
-            key: ['metaDescription', currentLanguage],
+            HeadTitle: 'title',
+            key: ['title', currentLanguage],
             type: 'str' as 'str',
         },
-
         {
-            HeadTitle: 'metaKeywords',
-            key: ['metaKeywords', currentLanguage],
+            HeadTitle: 'description',
+            key: ['description', currentLanguage],
             type: 'str' as 'str',
         },
+        { HeadTitle: 'image', key: ['image'], type: 'img' as 'img' },
     ];
 
     const handleEdit = (id: string | number) => {
@@ -99,15 +120,11 @@ export default function SeoContent() {
         <div className="relative">
             {open || (
                 <>
-                    {SeoData && (
+                    {HeroData && (
                         <TableDemo
                             structure={structure}
-                            data={SeoData}
+                            data={HeroData}
                             onEdit={handleEdit}
-                            onAdd={() => {
-                                setOpen(true);
-                            }}
-                            onDelete={handleDelite}
                         />
                     )}
                 </>
@@ -121,40 +138,39 @@ export default function SeoContent() {
                     onSubmit={handleSubmit}
                 >
                     <TextInput
-                        name="type"
-                        label="type"
-                        defaultValue={
-                            Id && SeoData?.find((item) => item._id === Id)?.type
-                        }
-                    />
-
-                    <TextInput
-                        name="metaTitle"
-                        label="metaTitle"
+                        name="preTitle"
+                        label="preTitle"
                         isLang
                         defaultValue={
                             Id &&
-                            SeoData?.find((item) => item._id === Id)?.metaTitle
+                            HeroData?.find((item) => item._id === Id)?.preTitle
                         }
                     />
                     <TextInput
-                        name="metaDescription"
-                        label="metaDescription"
+                        name="title"
+                        label="title"
                         isLang
                         defaultValue={
                             Id &&
-                            SeoData?.find((item) => item._id === Id)
-                                ?.metaDescription
+                            HeroData?.find((item) => item._id === Id)?.title
                         }
                     />
                     <TextInput
-                        name="metaKeywords"
-                        label="metaKeywords"
+                        name="description"
+                        label="description"
                         isLang
                         defaultValue={
                             Id &&
-                            SeoData?.find((item) => item._id === Id)
-                                ?.metaKeywords
+                            HeroData?.find((item) => item._id === Id)
+                                ?.description
+                        }
+                    />
+                    <SingleImageInput
+                        name="image"
+                        label="image"
+                        defaultValue={
+                            Id &&
+                            HeroData?.find((item) => item._id === Id)?.image
                         }
                     />
                 </ForumWrapper>
@@ -164,7 +180,9 @@ export default function SeoContent() {
                 onClose={() => {
                     setDelOpen(false), setId('');
                 }}
-                onDelete={handleDelete}
+                onDelete={() => {
+                    setDelOpen(false), setId('');
+                }}
             />
         </div>
     );

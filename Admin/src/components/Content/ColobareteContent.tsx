@@ -7,44 +7,45 @@ import { ForumWrapper } from '@/components/Inputs/ForumWrapper';
 import { TextInput } from '@/components/Inputs/Text';
 import { SelectInput } from '@/components/Inputs/SelectInput';
 import { SingleImageInput } from '@/components/Inputs/SingleImage';
-import { PrimeEditor } from '@/components/Inputs/Quil';
 import { DeleteModal } from '@/components/DeleteModal';
-import { useAtom } from 'jotai';
-import { LangAtom } from '@/lib/State';
 import { useQueryClient } from '@tanstack/react-query';
 import GETRequest from '@/helpers/reques';
 import instanceAxios from '@/helpers/axios';
 import toast from 'react-hot-toast';
-import { log } from 'console';
 
-export default function SeoContent() {
+export default function ColobareteContent() {
     const [open, setOpen] = useState(false);
     const [Delopen, setDelOpen] = useState(false);
     const [Id, setId] = useState('');
-    const [currentLanguage] = useAtom(LangAtom);
     const queryClient = useQueryClient();
 
     // Fetch translations data
-    const { data: SeoData } = GETRequest<any[]>('seo', 'seo', []);
-    console.log('SeoData', SeoData);
+    const { data: PrefeData } = GETRequest<any[]>(
+        'colabaration',
+        'colabaration',
+        []
+    );
+    console.log('PrefeData', PrefeData);
     const closeForm = () => {
         setOpen(false);
         setId('');
     };
     const handleSubmit = async (data: any) => {
         console.log('data', data);
+        const formData = new FormData();
+        formData.append('image', data.image);
         try {
             if (Id) {
-                await instanceAxios.put(`seo/${Id}`, data);
-                toast.success('Seo edited successfully');
+                await instanceAxios.put(`colabaration/${Id}`, formData);
+                toast.success('logo edited successfully');
             } else {
-                await instanceAxios.post('seo', data).then(() => {
-                    console.log('Seo created successfully');
+                await instanceAxios.post('colabaration', formData).then(() => {
+                    console.log('colabaration created successfully');
                 });
 
-                toast.success('Seo created successfully');
+                toast.success('colabaration created successfully');
             }
-            queryClient.invalidateQueries({ queryKey: ['seo'] });
+            queryClient.invalidateQueries({ queryKey: ['colabaration'] });
             closeForm();
         } catch (error) {
             toast.error('Something went wrong');
@@ -52,36 +53,21 @@ export default function SeoContent() {
     };
     const handleDelete = async () => {
         try {
-            instanceAxios.delete(`seo/${Id}`).then(() => {
-                toast.success('Seo deleted successfully');
+            instanceAxios.delete(`colabaration/${Id}`).then(() => {
+                toast.success('colabaration deleted successfully');
                 setDelOpen(false);
                 setId('');
-                queryClient.invalidateQueries({ queryKey: ['seo'] });
+                queryClient.invalidateQueries({ queryKey: ['colabaration'] });
             });
         } catch (error) {
             toast.error('Something went wrong');
         }
     };
+
     // Convert object to array format with _id
 
     const structure = [
-        { HeadTitle: 'type', key: ['type'], type: 'str' as 'str' },
-        {
-            HeadTitle: 'metaTitle',
-            key: ['metaTitle', currentLanguage],
-            type: 'str' as 'str',
-        },
-        {
-            HeadTitle: 'metaDescription',
-            key: ['metaDescription', currentLanguage],
-            type: 'str' as 'str',
-        },
-
-        {
-            HeadTitle: 'metaKeywords',
-            key: ['metaKeywords', currentLanguage],
-            type: 'str' as 'str',
-        },
+        { HeadTitle: 'image', key: ['image'], type: 'img' as 'img' },
     ];
 
     const handleEdit = (id: string | number) => {
@@ -99,10 +85,10 @@ export default function SeoContent() {
         <div className="relative">
             {open || (
                 <>
-                    {SeoData && (
+                    {PrefeData && (
                         <TableDemo
                             structure={structure}
-                            data={SeoData}
+                            data={PrefeData}
                             onEdit={handleEdit}
                             onAdd={() => {
                                 setOpen(true);
@@ -120,41 +106,12 @@ export default function SeoContent() {
                     }}
                     onSubmit={handleSubmit}
                 >
-                    <TextInput
-                        name="type"
-                        label="type"
-                        defaultValue={
-                            Id && SeoData?.find((item) => item._id === Id)?.type
-                        }
-                    />
-
-                    <TextInput
-                        name="metaTitle"
-                        label="metaTitle"
-                        isLang
+                    <SingleImageInput
+                        name="image"
+                        label="image"
                         defaultValue={
                             Id &&
-                            SeoData?.find((item) => item._id === Id)?.metaTitle
-                        }
-                    />
-                    <TextInput
-                        name="metaDescription"
-                        label="metaDescription"
-                        isLang
-                        defaultValue={
-                            Id &&
-                            SeoData?.find((item) => item._id === Id)
-                                ?.metaDescription
-                        }
-                    />
-                    <TextInput
-                        name="metaKeywords"
-                        label="metaKeywords"
-                        isLang
-                        defaultValue={
-                            Id &&
-                            SeoData?.find((item) => item._id === Id)
-                                ?.metaKeywords
+                            PrefeData?.find((item) => item._id === Id)?.image
                         }
                     />
                 </ForumWrapper>

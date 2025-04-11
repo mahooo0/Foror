@@ -50,40 +50,6 @@ export default function PartfolioCategoryContent() {
         }
     };
 
-    const PartfolioCategoryData = [
-        {
-            title: {
-                az: 'masin',
-                en: 'Car',
-                ru: 'RU',
-            },
-            _id: 'ssss',
-        },
-        {
-            title: {
-                az: 'masin',
-                en: 'Car',
-                ru: 'RU',
-            },
-            _id: 'ssss',
-        },
-        {
-            title: {
-                az: 'masin',
-                en: 'Car',
-                ru: 'RU',
-            },
-            _id: 'ssss',
-        },
-        {
-            title: {
-                az: 'masin',
-                en: 'Car',
-                ru: 'RU',
-            },
-            _id: 'ssss',
-        },
-    ];
     const [currentLanguage] = useAtom(LangAtom);
 
     // Convert object to array format with _id

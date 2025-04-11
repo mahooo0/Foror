@@ -1,11 +1,10 @@
 'use client';
 
 import { TableDemo } from '@/components/Table';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { ForumWrapper } from '@/components/Inputs/ForumWrapper';
 import { TextInput } from '@/components/Inputs/Text';
-import { SelectInput } from '@/components/Inputs/SelectInput';
 import { SingleImageInput } from '@/components/Inputs/SingleImage';
 import { PrimeEditor } from '@/components/Inputs/Quil';
 import { DeleteModal } from '@/components/DeleteModal';
@@ -80,18 +79,7 @@ export default function AboutHeroContent() {
             toast.error('Something went wrong');
         }
     };
-    const handleDelete = async () => {
-        try {
-            instanceAxios.delete(`social/${Id}`).then(() => {
-                toast.success('colabaration deleted successfully');
-                setDelOpen(false);
-                setId('');
-                queryClient.invalidateQueries({ queryKey: ['social'] });
-            });
-        } catch (error) {
-            toast.error('Something went wrong');
-        }
-    };
+
     const closeForm = () => {
         setOpen(false);
         setId('');
@@ -100,11 +88,6 @@ export default function AboutHeroContent() {
         console.log('Edit:', id);
         setId(id as string);
         setOpen(true);
-    };
-    const handleDelite = (id: string | number) => {
-        console.log('Edit:', id);
-        setId(id as string);
-        setDelOpen(true);
     };
 
     return (

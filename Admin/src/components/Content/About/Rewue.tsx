@@ -1,13 +1,11 @@
 'use client';
 
 import { TableDemo } from '@/components/Table';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { ForumWrapper } from '@/components/Inputs/ForumWrapper';
 import { TextInput } from '@/components/Inputs/Text';
-import { SelectInput } from '@/components/Inputs/SelectInput';
 import { SingleImageInput } from '@/components/Inputs/SingleImage';
-import { PrimeEditor } from '@/components/Inputs/Quil';
 import { DeleteModal } from '@/components/DeleteModal';
 import { useAtom } from 'jotai';
 import { LangAtom } from '@/lib/State';
@@ -62,27 +60,6 @@ export default function HomeAboutContent() {
             toast.error('Something went wrong');
         }
     };
-    const Seo = [
-        {
-            _id: 'sss',
-            preTitle: {
-                az: 'velosiped',
-                en: 'Bike',
-                ru: 'велосипед',
-            },
-            Title: {
-                az: 'velosiped',
-                en: 'Bike',
-                ru: 'велосипед',
-            },
-            descriptron: {
-                az: 'velosiped',
-                en: 'Bike',
-                ru: 'велосипед',
-            },
-            img: 'ssss',
-        },
-    ];
 
     // Convert object to array format with _id
 
@@ -109,11 +86,6 @@ export default function HomeAboutContent() {
         console.log('Edit:', id);
         setId(id as string);
         setOpen(true);
-    };
-    const handleDelite = (id: string | number) => {
-        console.log('Edit:', id);
-        setId(id as string);
-        setDelOpen(true);
     };
 
     return (

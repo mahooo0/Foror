@@ -10,7 +10,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { Button } from '../ui/button';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Pencil } from 'lucide-react';
 
 type Structure = {
@@ -28,7 +28,7 @@ interface Props {
 }
 
 export function TableDemo({ structure, data, onAdd, onEdit, onDelete }: Props) {
-    const [role, setRole] = useState<'admin' | 'editor' | ''>('admin');
+    const [role] = useState<'admin' | 'editor' | ''>('admin');
 
     const getNestedValue = (obj: any, keys: (string | number)[]) => {
         return keys.reduce(

@@ -1,5 +1,4 @@
 import HomeAboutDevContent from '@/components/Content/Home/AboutDev';
-import React from 'react';
 
 export default function Home_about_dev() {
     return (

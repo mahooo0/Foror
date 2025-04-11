@@ -9,7 +9,6 @@ import { useAtom } from 'jotai';
 import { LangAtom } from '@/lib/State';
 import { DeleteModal } from '@/components/DeleteModal';
 import { SingleImageInput } from '@/components/Inputs/SingleImage';
-import { MultiSelectInput } from '@/components/Inputs/SearchSelect';
 import { PrimeEditor } from '../Inputs/Quil';
 import { useQueryClient } from '@tanstack/react-query';
 import GETRequest from '@/helpers/reques';

@@ -1,8 +1,4 @@
 import ColobareteContent from '@/components/Content/ColobareteContent';
-import LogoContent from '@/components/Content/Logo&favicon';
-import SeoContent from '@/components/Content/SEO';
-import TranslatesContent from '@/components/Content/Translates';
-import React from 'react';
 
 export default function ColabarateCompanies() {
     return (

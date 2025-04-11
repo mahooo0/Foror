@@ -8,12 +8,8 @@ import { TextInput } from '@/components/Inputs/Text';
 import { useAtom } from 'jotai';
 import { LangAtom } from '@/lib/State';
 import { DeleteModal } from '@/components/DeleteModal';
-import { SingleImageInput } from '@/components/Inputs/SingleImage';
 import { MultiSelectInput } from '@/components/Inputs/SearchSelect';
-import { PrimeEditor } from '../Inputs/Quil';
-import { features } from 'process';
-import { Description } from '@radix-ui/react-dialog';
-import { Multiple_text_Input } from '../Inputs/MultipleTextInput';
+
 import { useQueryClient } from '@tanstack/react-query';
 import GETRequest from '@/helpers/reques';
 import instanceAxios from '@/helpers/axios';
@@ -29,44 +25,6 @@ export default function PriceListContent() {
     // Fetch translations data
     const { data: Featrues } = GETRequest<any[]>('featrues', 'Featrues', []);
     const { data: PriceList } = GETRequest<any[]>('price', 'price', []);
-
-    const categoryOptions = [
-        { value: 'frontend', label: 'Frontend' },
-        { value: 'backend', label: 'Backend' },
-        { value: 'fullstack', label: 'Fullstack' },
-        { value: 'devops', label: 'DevOps' },
-        { value: 'uiux', label: 'UI/UX' },
-    ];
-
-    const ServicesCategoryData = [
-        {
-            title: {
-                az: 'masin',
-                en: 'Car',
-                ru: 'RU',
-            },
-            description: {
-                az: 'masin',
-                en: 'Car',
-                ru: 'RU',
-            },
-            _id: 'ssss',
-            Price: 'ssss',
-            DiscontedPrice: 'ssss',
-            features: [
-                {
-                    az: 'masin',
-                    en: 'Car',
-                    ru: 'RU',
-                },
-                {
-                    az: 'masin',
-                    en: 'Car',
-                    ru: 'RU',
-                },
-            ],
-        },
-    ];
 
     // Convert object to array format with _id
 

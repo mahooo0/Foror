@@ -1,9 +1,4 @@
 import DevStepsContent from '@/components/Content/About/Devsteps';
-import DevContent from '@/components/Content/About/DevTools';
-import AboutHeroContent from '@/components/Content/About/Hero';
-import HomeAboutContent from '@/components/Content/Home/About';
-import HomeHeroContent from '@/components/Content/Home/Hero';
-import React from 'react';
 
 export default function Dev_Steps() {
     return (

@@ -1,13 +1,10 @@
 'use client';
 
 import { TableDemo } from '@/components/Table';
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 import { ForumWrapper } from '@/components/Inputs/ForumWrapper';
 import { TextInput } from '@/components/Inputs/Text';
-import { SelectInput } from '@/components/Inputs/SelectInput';
-import { SingleImageInput } from '@/components/Inputs/SingleImage';
-import { PrimeEditor } from '@/components/Inputs/Quil';
+
 import { DeleteModal } from '@/components/DeleteModal';
 import { useAtom } from 'jotai';
 import { LangAtom } from '@/lib/State';
@@ -15,7 +12,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import GETRequest from '@/helpers/reques';
 import instanceAxios from '@/helpers/axios';
 import toast from 'react-hot-toast';
-import { log } from 'console';
 
 export default function SeoContent() {
     const [open, setOpen] = useState(false);

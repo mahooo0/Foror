@@ -1,6 +1,5 @@
 import HomeAboutContent from '@/components/Content/Home/About';
-import HomeHeroContent from '@/components/Content/Home/Hero';
-import React from 'react';
+
 
 export default function Home_About() {
     return (

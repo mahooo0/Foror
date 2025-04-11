@@ -1,7 +1,4 @@
 import PartfolioCategoryContent from '@/components/Content/Partfolio/Category';
-import SeoContent from '@/components/Content/SEO';
-import TranslatesContent from '@/components/Content/Translates';
-import React from 'react';
 
 export default function PartfolioCategory() {
     return (

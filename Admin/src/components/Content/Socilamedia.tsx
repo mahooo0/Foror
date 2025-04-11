@@ -5,15 +5,9 @@ import { useState } from 'react';
 import { ForumWrapper } from '@/components/Inputs/ForumWrapper';
 import { TextInput } from '@/components/Inputs/Text';
 
-import { useAtom } from 'jotai';
-import { LangAtom } from '@/lib/State';
 import { DeleteModal } from '@/components/DeleteModal';
 import { SingleImageInput } from '@/components/Inputs/SingleImage';
-import { MultiSelectInput } from '@/components/Inputs/SearchSelect';
-import { PrimeEditor } from '../Inputs/Quil';
-import { features } from 'process';
-import { Description } from '@radix-ui/react-dialog';
-import { Multiple_text_Input } from '../Inputs/MultipleTextInput';
+
 import { useQueryClient } from '@tanstack/react-query';
 import GETRequest from '@/helpers/reques';
 import instanceAxios from '@/helpers/axios';
@@ -23,7 +17,6 @@ export default function SocialMediaContent() {
     const [open, setOpen] = useState(false);
     const [Id, setId] = useState('');
     const [Delopen, setDelOpen] = useState(false);
-    const [currentLanguage] = useAtom(LangAtom);
     const queryClient = useQueryClient();
 
     // Fetch translations data

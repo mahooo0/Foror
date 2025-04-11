@@ -1,22 +1,16 @@
 'use client';
 
 import { TableDemo } from '@/components/Table';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { ForumWrapper } from '@/components/Inputs/ForumWrapper';
 import { TextInput } from '@/components/Inputs/Text';
-import { SelectInput } from '@/components/Inputs/SelectInput';
 import { SingleImageInput } from '@/components/Inputs/SingleImage';
-import { PrimeEditor } from '@/components/Inputs/Quil';
 import { DeleteModal } from '@/components/DeleteModal';
-import { useAtom } from 'jotai';
-import { LangAtom } from '@/lib/State';
 
 export default function ContactContent() {
     const [open, setOpen] = useState(false);
     const [Delopen, setDelOpen] = useState(false);
-    const [Id, setId] = useState('');
-    const [currentLanguage] = useAtom(LangAtom);
 
     const Seo = [
         {
@@ -49,14 +43,8 @@ export default function ContactContent() {
         { HeadTitle: 'price', key: ['price'], type: 'str' as 'str' },
     ];
 
-    const handleEdit = (id: string | number) => {
-        console.log('Edit:', id);
-        setId(id as string);
-        setOpen(true);
-    };
     const handleDelite = (id: string | number) => {
         console.log('Edit:', id);
-        setId(id as string);
         setDelOpen(true);
     };
 
@@ -75,7 +63,7 @@ export default function ContactContent() {
             {open && (
                 <ForumWrapper
                     onClose={() => {
-                        setOpen(false), setId('');
+                        setOpen(false);
                     }}
                     onSubmit={(data) => {
                         console.log(data);
@@ -91,10 +79,10 @@ export default function ContactContent() {
             <DeleteModal
                 isOpen={Delopen}
                 onClose={() => {
-                    setDelOpen(false), setId('');
+                    setDelOpen(false);
                 }}
                 onDelete={() => {
-                    setDelOpen(false), setId('');
+                    setDelOpen(false);
                 }}
             />
         </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { TableDemo } from '@/components/Table';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ForumWrapper } from '@/components/Inputs/ForumWrapper';
 import { TextInput } from '@/components/Inputs/Text';
 
@@ -30,23 +30,7 @@ export default function PartfolioContent() {
         []
     );
     const { data: partfolio } = GETRequest<any[]>('partfolio', 'partfolio', []);
-    const PartfolioCategoryData = [
-        {
-            title: {
-                az: 'masin',
-                en: 'Car',
-                ru: 'RU',
-            },
-            description: {
-                az: 'masin',
-                en: 'Car',
-                ru: 'RU',
-            },
-            _id: 'ssss',
-            img: 'ssss',
-            url: 'ssss',
-        },
-    ];
+
     useEffect(() => {
         const current = partfolio?.find((item) => item._id === Id)?.categories;
         console.log('current', current);

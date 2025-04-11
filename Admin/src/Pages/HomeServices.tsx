@@ -1,8 +1,4 @@
-import LogoContent from '@/components/Content/Logo&favicon';
-import SeoContent from '@/components/Content/SEO';
 import HomeServicesContent from '@/components/Content/ServicesHome';
-import TranslatesContent from '@/components/Content/Translates';
-import React from 'react';
 
 export default function Home_Services() {
     return (

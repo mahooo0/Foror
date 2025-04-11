@@ -1,5 +1,4 @@
 import HomeHeroContent from '@/components/Content/Home/Hero';
-import React from 'react';
 
 export default function Home_hero() {
     return (

@@ -1,5 +1,4 @@
 import TranslatesContent from '@/components/Content/Translates';
-import React from 'react';
 
 export default function Translates() {
     return (

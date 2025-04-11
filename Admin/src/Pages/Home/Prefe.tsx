@@ -1,6 +1,4 @@
-import HomeAboutDevContent from '@/components/Content/Home/AboutDev';
 import HomePrefeContent from '@/components/Content/Home/Prefe';
-import React from 'react';
 
 export default function Home_Prefe() {
     return (

@@ -9,11 +9,8 @@ import { useAtom } from 'jotai';
 import { LangAtom } from '@/lib/State';
 import { DeleteModal } from '@/components/DeleteModal';
 import { SingleImageInput } from '@/components/Inputs/SingleImage';
-import { MultiSelectInput } from '@/components/Inputs/SearchSelect';
 import { PrimeEditor } from '../Inputs/Quil';
-import { features } from 'process';
-import { Description } from '@radix-ui/react-dialog';
-import { Multiple_text_Input } from '../Inputs/MultipleTextInput';
+
 import { useQueryClient } from '@tanstack/react-query';
 import GETRequest from '@/helpers/reques';
 import instanceAxios from '@/helpers/axios';
@@ -28,44 +25,6 @@ export default function BlogsContent() {
 
     // Fetch translations data
     const { data: Blogs } = GETRequest<any[]>('blogs', 'blogs', []);
-    const ServicesCategoryData = [
-        {
-            title: {
-                az: 'masin',
-                en: 'Car',
-                ru: 'RU',
-            },
-            description: {
-                az: 'masin',
-                en: 'Car',
-                ru: 'RU',
-            },
-            slug: {
-                az: 'masin',
-                en: 'Car',
-                ru: 'RU',
-            },
-
-            _id: 'ssss',
-            url: 'ssss',
-            img: 'ssss',
-            meta_title: {
-                az: 'masin',
-                en: 'Car',
-                ru: 'RU',
-            },
-            meta_desc: {
-                az: 'masin',
-                en: 'Car',
-                ru: 'RU',
-            },
-            keywords: {
-                az: 'masin',
-                en: 'Car',
-                ru: 'RU',
-            },
-        },
-    ];
 
     // Convert object to array format with _id
     const handleSubmit = async (data: any) => {

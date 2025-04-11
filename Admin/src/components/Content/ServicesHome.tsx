@@ -1,14 +1,11 @@
 'use client';
 
 import { TableDemo } from '@/components/Table';
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 import { ForumWrapper } from '@/components/Inputs/ForumWrapper';
 import { TextInput } from '@/components/Inputs/Text';
-import { SelectInput } from '@/components/Inputs/SelectInput';
-import { SingleImageInput } from '@/components/Inputs/SingleImage';
+
 import { DeleteModal } from '@/components/DeleteModal';
-import { Description } from '@radix-ui/react-dialog';
 import { useAtom } from 'jotai';
 import { LangAtom } from '@/lib/State';
 import { useQueryClient } from '@tanstack/react-query';
@@ -78,11 +75,6 @@ export default function HomeServicesContent() {
         console.log('Edit:', id);
         setId(id as string);
         setOpen(true);
-    };
-    const handleDelite = (id: string | number) => {
-        console.log('Edit:', id);
-        setId(id as string);
-        setDelOpen(true);
     };
 
     return (

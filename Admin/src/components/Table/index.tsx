@@ -46,7 +46,7 @@ export function TableDemo({ structure, data, onAdd, onEdit, onDelete }: Props) {
                         {structure.map((item, idx) => (
                             <TableHead
                                 key={idx}
-                                className="text-start whitespace-nowrap border "
+                                className="text-start whitespace-nowrap border  "
                             >
                                 {item.HeadTitle}
                             </TableHead>
@@ -84,7 +84,7 @@ export function TableDemo({ structure, data, onAdd, onEdit, onDelete }: Props) {
                                 return (
                                     <TableCell
                                         key={colIndex}
-                                        className="text-start border "
+                                        className="text-start border max-w-[150px]  overflow-hidden "
                                     >
                                         {column.type === 'img' ? (
                                             <img

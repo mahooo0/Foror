@@ -47,11 +47,13 @@ export default function ServicesContent() {
         console.log('data', data);
         const formData = new FormData();
         const strTitle = JSON.stringify(data.title);
+        const strshort_description = JSON.stringify(data.short_description);
         const strdescription = JSON.stringify(data.description);
         const strmetaTitle = JSON.stringify(data.metaTitle);
         const strmetaDescription = JSON.stringify(data.metaDescription);
         const strmetaKeywords = JSON.stringify(data.metaKeywords);
         formData.append('title', strTitle);
+        formData.append('short_description', strshort_description);
         formData.append('description', strdescription);
         formData.append('metaDescription', strmetaDescription);
         formData.append('metaTitle', strmetaTitle);
@@ -131,6 +133,15 @@ export default function ServicesContent() {
                     <TextInput
                         name="title"
                         label="title"
+                        isLang
+                        defaultValue={
+                            Id &&
+                            services?.find((item) => item._id === Id)?.title
+                        }
+                    />{' '}
+                    <TextInput
+                        name="short_description"
+                        label="short_description"
                         isLang
                         defaultValue={
                             Id &&

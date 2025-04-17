@@ -1,15 +1,26 @@
 import { scrollToId } from '@/helpers/Scroll/ScrollTo';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import GETRequest from '@/helpers/Requests/Query';
+import { useStore } from '@/helpers/StateManegment';
+import { ContactInfos, ServiceItem, Social } from '@/helpers/Requests/Types';
+import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
-    const [isLoading, setIsLoading] = useState(true);
+    // const [isLoading, setIsLoading] = useState(true);
+    const language = useStore((state) => state.Lang);
+    const { t } = useTranslation();
 
-    useEffect(() => {
-        const timer = setTimeout(() => setIsLoading(false), 1500); // simulate loading delay
-        return () => clearTimeout(timer);
-    }, []);
+    const { data: ContactInfos, isLoading: contactLoading } = GETRequest<
+        ContactInfos[]
+    >('contact-infos', 'contact-infos', [language]);
+    const { data: sociaıMedia, isLoading: socialLoading } = GETRequest<
+        Social[]
+    >('social', 'social', [language]);
+    const { data: services, isLoading: servicesLoading } = GETRequest<
+        ServiceItem[]
+    >('services', 'services', [language]);
 
+    const isLoading = servicesLoading || contactLoading || socialLoading;
     if (isLoading) {
         // 🔁 Skeleton Loader
         return (
@@ -68,6 +79,7 @@ export default function Footer() {
                             className="flex flex-row gap-2 items-center fill-white "
                         >
                             <img
+                                loading="lazy"
                                 src="/svg/logoMain.svg"
                                 alt=""
                                 className="h-[47px] max-sm:h-[30px]"
@@ -78,17 +90,24 @@ export default function Footer() {
                         </Link>
                     </div>
                     <div className="text-[14px] font-normal">
-                        <p className="text-[14px] font-semibold">contact</p>
-                        <Link to={'/ +994 055 266 07 28'}>
-                            <p>+994 055 266 07 28</p>
-                        </Link>
-                        <p>info@relume.io</p>
+                        <p className="text-[14px] font-semibold">
+                            {t('Contact')}
+                        </p>
+                        {ContactInfos?.map((item, i) => (
+                            <div
+                                key={i}
+                                className="flex flex-row gap-4 text-white items-center"
+                            >
+                                <p className="text-base">{item.title}</p>
+                            </div>
+                        ))}
                     </div>
                     <div className="flex flex-row gap-3">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                            <Link to={'/'} key={i}>
+                        {sociaıMedia?.map((item, i) => (
+                            <Link to={item.url} key={i}>
                                 <img
-                                    src="/images/faceboock.png"
+                                    loading="lazy"
+                                    src={item.image}
                                     className="w-6 aspect-square"
                                     alt=""
                                 />
@@ -99,43 +118,53 @@ export default function Footer() {
 
                 <div className="flex flex-row gap-[60px] max-md:flex-col">
                     <nav className="flex flex-col gap-2 font-semibold text-[16px]">
-                        <p className="text-[24px]">Routing</p>
-                        <Link to={'/'}>Home</Link>
-                        <Link to={'/about'}>Haqqımızda</Link>
+                        <p className="text-[24px]"> {t('Pages')}</p>
+                        <Link to={'/'}> {t('Home')}</Link>
+                        <Link to={'/about'}>{t('Haqqımızda')}</Link>
                         <Link to={'/about-development'}>
-                            Proqramlasdirma haqqinda
+                            {t('Proqramlasdirma haqqinda')}
                         </Link>
-                        <Link to={'/price-list'}>Price List</Link>
+                        <Link to={'/price-list'}>{t('Price List')}</Link>
                         <button
                             className="w-fit"
                             onClick={() => {
                                 scrollToId('contact');
                             }}
                         >
-                            Contact
+                            {t('Contact')}
                         </button>
-                        <Link to={'/blogs'}>Blog</Link>
-                        <Link to={'/worcks'}>Portfolio</Link>
+                        <Link to={'/blogs'}> {t('Blog')}</Link>
+                        <Link to={'/worcks'}>{t('Portfolio')}</Link>
                     </nav>
 
                     <nav className="flex flex-col gap-2 font-semibold text-[16px]">
-                        <p className="text-[24px]">Services</p>
-                        <Link to={'/worcks/id'}>
-                            Veb saytların hazırlanması
-                        </Link>
-                        <Link to={'/'}>Veb saytlara texniki dəstək</Link>
+                        <p className="text-[24px]">{t('Services')}</p>
+                        {services?.map((item) => (
+                            <Link
+                                to={`/service/${item.slug[language]}`}
+                                onClick={() => {
+                                    localStorage.setItem(
+                                        'slug',
+                                        JSON.stringify(item.slug)
+                                    );
+                                }}
+                            >
+                                {item.title}
+                            </Link>
+                        ))}
+                        {/* <Link to={'/'}>Veb saytlara texniki dəstək</Link>
                         <Link to={'/'}>Korporativ mail xidməti</Link>
-                        <Link to={'/'}>Online ödəmə sistemi inteqrasiyası</Link>
+                        <Link to={'/'}>Online ödəmə sistemi inteqrasiyası</Link> */}
                     </nav>
                 </div>
             </div>
 
             <div className="text-[#FFD711] font_base xl:text-[96px] lg:text-[60px] md:text-[50px] text-[40px]">
-                LEST MAKE A FOROR
+                {t('LEST MAKE A FOROR')}
             </div>
 
             <div className="w-full border-t border-white text-[14px] flex flex-row justify-between pt-[32px] flex-wrap gap-2">
-                <p>© 2025 Fooror. All rights reserved.</p>
+                <p>© 2025 Fooror.{t('All rights reserved.')} </p>
             </div>
         </footer>
     );

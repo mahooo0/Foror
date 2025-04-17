@@ -3,8 +3,11 @@ import WhiteBtn, { BlackBtn } from '../Buttons';
 import { LanguageSelect } from './language';
 import { scrollToId } from '@/helpers/Scroll/ScrollTo';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function Header() {
+    const { t } = useTranslation();
+
     return (
         <header className=" sticky top-0 bg-white z-50">
             <div className="h-[72px] w-full relative  shadow flex justify-between items-center xl:px-[30px] px-[20px] max-sm:px-3">
@@ -17,7 +20,7 @@ export default function Header() {
                         />
                     </Link>
                     <BlackBtn
-                        text="Qiymət təklifi al"
+                        text={t('teklif_al')}
                         action={() => scrollToId('contact')}
                     />
                     <div className="w-fit block max-md:hidden">

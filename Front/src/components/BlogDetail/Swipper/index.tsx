@@ -3,19 +3,19 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperCore } from 'swiper/types';
 import 'swiper/swiper-bundle.css';
 import { BlogCard } from '@/components/Blogs/Card';
+import { useStore } from '@/helpers/StateManegment';
+import GETRequest from '@/helpers/Requests/Query';
+import { BlogResponse } from '@/helpers/Requests/Types';
 
 const BlogsSwipper = () => {
     const swiperRef = useRef<SwiperCore | null>(null);
-    const isLoading = false; // Set to true to show skeletons
-
-    const blogs = [
-        { title: 'Blog 1', summary: 'This is blog 1' },
-        { title: 'Blog 2', summary: 'This is blog 2' },
-        { title: 'Blog 3', summary: 'This is blog 3' },
-        { title: 'Blog 4', summary: 'This is blog 4' },
-        { title: 'Blog 5', summary: 'This is blog 5' },
-        { title: 'Blog 6', summary: 'This is blog 6' },
-    ];
+    const language = useStore((state) => state.Lang);
+    // const navigate = useNavigate();
+    const { data: Blogs, isLoading } = GETRequest<BlogResponse>(
+        `blogs?page=${1}`,
+        'blogs',
+        [language]
+    );
 
     const skeletonSlides = Array(3).fill(null);
 
@@ -47,18 +47,18 @@ const BlogsSwipper = () => {
                               </div>
                           </SwiperSlide>
                       ))
-                    : blogs.map((blog, index) => (
+                    : Blogs?.data.map((item, index) => (
                           <SwiperSlide key={index}>
                               <BlogCard
                                   image={{
-                                      src: 'https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg',
+                                      src: item.image,
                                       alt: 'Cover',
                                   }}
-                                  url="/blog/how-to-build-ui"
+                                  url={`/blog/${item.slug[language]}`}
                                   category="Design"
                                   readTime="5 min read"
-                                  title={blog.title}
-                                  description={blog.summary}
+                                  title={item.title}
+                                  description={item.description}
                                   button={{
                                       title: 'Read More',
                                       onClick: () =>
@@ -80,11 +80,8 @@ const BlogsSwipper = () => {
                     viewBox="0 0 41 42"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    className="bg-black/12"
                 >
-                    <path
-                        d="M39.5523 34.9695C39.557 38.0071 37.0983 40.4733 34.0608 40.4779L6.0608 40.5208C3.02323 40.5255 0.557033 38.0668 0.552379 35.0293L0.509488 7.0293C0.504835 3.99173 2.96349 1.52553 6.00106 1.52088L34.001 1.47799C37.0386 1.47334 39.5048 3.93199 39.5094 6.96956L39.5523 34.9695Z"
-                        fill="white"
-                    />
                     <path
                         d="M22.0249 16.9961L18.031 21.0022L22.0371 24.9961"
                         stroke="#09090B"
@@ -105,11 +102,8 @@ const BlogsSwipper = () => {
                     viewBox="0 0 41 42"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    className="bg-black/12"
                 >
-                    <path
-                        d="M39.5523 34.9695C39.557 38.0071 37.0983 40.4733 34.0608 40.4779L6.0608 40.5208C3.02323 40.5255 0.557033 38.0668 0.552379 35.0293L0.509488 7.0293C0.504835 3.99173 2.96349 1.52553 6.00106 1.52088L34.001 1.47799C37.0386 1.47334 39.5048 3.93199 39.5094 6.96956L39.5523 34.9695Z"
-                        fill="white"
-                    />
                     <path
                         d="M22.0249 16.9961L18.031 21.0022L22.0371 24.9961"
                         stroke="#09090B"

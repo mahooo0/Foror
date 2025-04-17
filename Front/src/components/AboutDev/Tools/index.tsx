@@ -1,7 +1,15 @@
+import { Tool } from '@/helpers/Requests/Types';
 import ToolCard from './toolCard';
 
-export default function ToolsSection() {
-    let isLoading = false;
+export default function ToolsSection({
+    title,
+    isLoading,
+    data,
+}: {
+    title: string;
+    isLoading: boolean;
+    data: Tool[];
+}) {
     if (isLoading) {
         // ⛔ Skeleton View
         return (
@@ -23,13 +31,12 @@ export default function ToolsSection() {
     }
     return (
         <section className=" lg:px-[100px] pt-[40px]   md:px-[60px] px-[12px] flex flex-col gap-10 text-center">
-            <h2 className="text-5xl font-bold">Toos we are using</h2>
+            <h2 className="text-3xl font-bold">{title}</h2>
 
             <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4">
-                <ToolCard />
-                <ToolCard />
-                <ToolCard />
-                <ToolCard />
+                {data.map((item) => (
+                    <ToolCard data={item} />
+                ))}
             </div>
         </section>
     );

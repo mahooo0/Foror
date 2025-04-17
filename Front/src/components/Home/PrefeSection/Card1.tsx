@@ -1,7 +1,10 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function Card1() {
     const [isHover, setIsHover] = React.useState(false);
+    const { t } = useTranslation();
+
     return (
         <div
             className={`h-[360px]  xl:col-span-3 lg:col-span-4 col-span-12 ${
@@ -12,6 +15,7 @@ export default function Card1() {
         >
             <div className=" w-full h-full  absolute lg:top-0 md:top-[60%] max-sm:top-0 left-0 z-0 blur-xl flex justify-end items-end overflow-hidden">
                 <img
+                    loading="lazy"
                     src="/images/Card1.png"
                     alt=""
                     className={`w-full object-cover ${
@@ -19,11 +23,8 @@ export default function Card1() {
                     }  duration-700`}
                 />
             </div>
-            <p className="text-[32px] font-semibold z-10">Big Idea</p>
-            <p className="z-10 text-[20px]">
-                It’s the heart of your brand — the core message that conveys
-                your unique value.
-            </p>
+            <p className="text-[32px] font-semibold z-10">{t('Big Idea')}</p>
+            <p className="z-10 text-[20px]">{t('card1_desc')}</p>
         </div>
     );
 }

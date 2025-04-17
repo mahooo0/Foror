@@ -1,20 +1,32 @@
 import { BlackBtn } from '@/components/Buttons';
 import { scrollToId } from '@/helpers/Scroll/ScrollTo';
 import { motion } from 'framer-motion';
+import { useStore } from '@/helpers/StateManegment';
+import { useTranslation } from 'react-i18next';
+import GETRequest from '@/helpers/Requests/Query';
+import { Bunner } from '@/helpers/Requests/Types';
 
-// {prolog?:string, title?:string, description?:string}
 export default function Hero() {
-    const loading = false;
+    const language = useStore((state: any) => state.Lang);
+    const { t } = useTranslation();
 
+    const { data: Hero, isLoading: loading } = GETRequest<Bunner>(
+        'home/hero',
+        'home/hero',
+        [language]
+    );
     return (
-        <section
+        <motion.section
             data-scroll-section
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
             className="relative overflow-hidden max-sm:max-h-screen h-fit border-b border-black/20"
+            style={{ willChange: 'opacity, transform' }}
         >
             <div
                 style={{
-                    backgroundImage: `
-                      linear-gradient(to bottom, 
+                    backgroundImage: `linear-gradient(to bottom, 
                         rgba(255, 255, 255, 1) 0%, 
                         rgba(255, 255, 255, 0) 50%, 
                         rgba(255, 255, 255, 1) 100%)`,
@@ -31,46 +43,86 @@ export default function Hero() {
                         </div>
                     ) : (
                         <>
-                            <p className="lg:text-base md:text-[12px] max-sm:font-medium max-sm:text-[10px] font-bold">
-                                ✦  Hi, you are on the right place
-                            </p>
-                            <h1 className="xl:text-[44px] lg:text-[36px] md:text-[30px] max-sm:text-[32px] max-lg:text-[36px] font-bold">
-                                Medium length hero heading goes here
-                            </h1>
-                            <h2 className="lg:text-[14px] md:text-[12px] max-sm:text-[11px] max-w-[680px] opacity-60">
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Suspendisse varius enim in eros
-                                elementum tristique. Duis cursus, mi quis
-                                viverra ornare, eros dolor interdum nulla, ut
-                                commodo diam libero vitae erat.
-                            </h2>
-                            <BlackBtn
-                                action={() => scrollToId('contact')}
-                                text="Qiymət təklifi al"
-                                className="w-fit font-sans !px-8 !py-5 shadow-2xl rounded-[8px] !text-[18px] max-sm:!px-[24px] max-sm:!py-[12px] max-sm:!text-[14px]"
-                            />
+                            <motion.p
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2 }}
+                                className="lg:text-base md:text-[12px] max-sm:font-medium max-sm:text-[10px] font-bold"
+                            >
+                                ✦  {Hero?.preTitle}
+                            </motion.p>
+
+                            <motion.h1
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.3 }}
+                                className="xl:text-[44px] lg:text-[36px] md:text-[30px] max-sm:text-[32px] max-lg:text-[36px] font-bold"
+                            >
+                                {Hero?.title}
+                            </motion.h1>
+
+                            <motion.h2
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.4 }}
+                                className="lg:text-[14px] md:text-[12px] max-sm:text-[11px] max-w-[680px] opacity-60"
+                            >
+                                {Hero?.description}
+                            </motion.h2>
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.5 }}
+                            >
+                                <BlackBtn
+                                    action={() => scrollToId('contact')}
+                                    text={t('teklif_al')}
+                                    className="w-fit font-sans !px-8 !py-5 shadow-2xl rounded-[8px] !text-[18px] max-sm:!px-[24px] max-sm:!py-[12px] max-sm:!text-[14px]"
+                                />
+                            </motion.div>
                         </>
                     )}
                 </article>
 
                 {!loading && (
                     <>
-                        <motion.img
-                            initial={{ y: 100, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ duration: 1.2, ease: 'easeOut' }}
-                            src="/images/heroLg.png"
-                            alt=""
-                            className="sm:block hidden xl:w-[70%] w-full"
-                        />
-                        <motion.img
-                            initial={{ y: 100, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ duration: 1.2, ease: 'easeOut' }}
-                            src="/images/heroSm.png"
-                            alt=""
-                            className="max-sm:block hidden w-[70%]"
-                        />
+                        <div className="sm:flex hidden xl:w-[70%] w-full flex-row relative">
+                            <motion.img
+                                src={`/images/heroMobile_${language}.webp`}
+                                alt="Hero small"
+                                className="w-[26%] absolute left-[6%] top-[20%] z-20"
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 1.2, delay: 0.6 }}
+                            />
+                            <motion.img
+                                src={`/images/HeroDesctop_${language}.webp`}
+                                alt="Hero large"
+                                className="w-[80%] ml-[20%] z-10"
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 1.2, delay: 0.2 }}
+                            />
+                        </div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 50 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                                duration: 1.2,
+                                ease: 'easeOut',
+                                delay: 0.7,
+                            }}
+                            className="max-sm:block hidden w-[70%] "
+                        >
+                            <img
+                                loading="lazy"
+                                src={`/images/heroMobile_${language}.png`}
+                                alt="Hero small"
+                                className="w-full"
+                            />
+                        </motion.div>
                     </>
                 )}
             </div>
@@ -83,6 +135,6 @@ export default function Hero() {
                     backgroundSize: '6%',
                 }}
             ></div>
-        </section>
+        </motion.section>
     );
 }

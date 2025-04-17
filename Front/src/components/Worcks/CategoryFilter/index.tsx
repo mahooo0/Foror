@@ -2,20 +2,16 @@
 
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { PortfolioCategory2 } from '@/helpers/Requests/Types';
 
 interface CategoryFilterProps {
-    categories?: string[];
+    categories?: PortfolioCategory2[];
     onCategoryChange?: (category: string) => void;
     isLoading?: boolean; // 👈 new optional prop
 }
 
 export default function CategoryFilter({
-    categories = [
-        'Category one',
-        'Category two',
-        'Category three',
-        'Category four',
-    ],
+    categories = [],
     onCategoryChange,
     isLoading = false,
 }: CategoryFilterProps) {
@@ -43,10 +39,10 @@ export default function CategoryFilter({
             ) : (
                 <>
                     <button
-                        onClick={() => handleCategoryClick('View all')}
+                        onClick={() => handleCategoryClick('')}
                         className={cn(
                             'px-6 py-3 text-base transition-colors rounded-[8px]',
-                            activeCategory === 'View all'
+                            activeCategory === ''
                                 ? 'border border-black'
                                 : 'bg-gray-100'
                         )}
@@ -56,16 +52,16 @@ export default function CategoryFilter({
 
                     {categories.map((category) => (
                         <button
-                            key={category}
-                            onClick={() => handleCategoryClick(category)}
+                            key={category._id}
+                            onClick={() => handleCategoryClick(category._id)}
                             className={cn(
                                 'px-6 py-3 text-base transition-colors rounded-[8px]',
-                                activeCategory === category
+                                activeCategory === category._id
                                     ? 'border border-black'
                                     : 'bg-gray-100 '
                             )}
                         >
-                            {category}
+                            {category.title}
                         </button>
                     ))}
                 </>

@@ -1,22 +1,27 @@
-import { BlackBtn } from '@/components/Buttons';
-import { StoreState, useStore } from '@/helpers/StateManegment';
-import { useEffect, useState } from 'react';
+import GETRequest from '@/helpers/Requests/Query';
+import { ContactInfos, Social, Translates } from '@/helpers/Requests/Types';
+import { useStore } from '@/helpers/StateManegment';
+import { Link } from 'react-router-dom';
+import ContactForum from './Forum';
 
 export default function ContactUsSection() {
-    const SelectedPriceVariant = useStore(
-        (state: StoreState) => state.SelectedPriceVariant
+    const language = useStore((state: any) => state.Lang);
+
+    const { data: ContactInfos } = GETRequest<ContactInfos[]>(
+        'contact-infos',
+        'contact-infos',
+        [language]
     );
-    const setSelectedPriceVariant = useStore(
-        (state: StoreState) => state.setSelectedPriceVariant
+    const { data: Translation } = GETRequest<Translates>(
+        'translations',
+        'translations',
+        [language]
     );
-
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        const timer = setTimeout(() => setIsLoading(false), 1500);
-        return () => clearTimeout(timer);
-    }, []);
-
+    const { data: Social } = GETRequest<Social[]>('social', 'social', [
+        language,
+    ]);
+    // const [isLoading, setIsLoading] = useState(false);
+    const isLoading = !Translation || !ContactInfos || !Social;
     if (isLoading) {
         // 🔁 Skeleton version
         return (
@@ -85,100 +90,58 @@ export default function ContactUsSection() {
             className="lg:px-[100px] md:px-[60px] px-[12px] relative"
         >
             <div className="w-full border border-[#222222] gap-8 rounded-[12px] px-[30px] py-[40px] flex lg:flex-row flex-col justify-between">
-                <div className="flex flex-col justify-between gap-4">
-                    <p className="text-base font-semibold">Tagline</p>
-                    <h2 className="text-5xl font-bold">Contact us</h2>
-                    <p className="text-base">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </p>
-                    <div className="flex flex-col gap-4">
-                        {Array.from({ length: 3 }).map((_, i) => (
-                            <div
-                                key={i}
-                                className="flex flex-row gap-4 items-center"
-                            >
-                                <img
-                                    src="/svg/relume.svg"
-                                    alt=""
-                                    className="w-[24px] aspect-square"
-                                />
-                                <p className="text-base">hello@relume.io</p>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="flex flex-col gap-3">
-                        <p className="text-base font-semibold">Easy Contact:</p>
-                        <div className="flex flex-row gap-4">
-                            {Array.from({ length: 3 }).map((_, i) => (
-                                <button
+                <div className="flex flex-col w-full lg:w-1/2 justify-between gap-4">
+                    {/* <p className="text-base font-semibold">Tagline</p> */}
+                    <div className="flex flex-col gap-5  ">
+                        {' '}
+                        <h2 className="text-5xl font-bold">
+                            {Translation.Contact_title}
+                        </h2>
+                        <p className="text-base">
+                            {Translation.Contact_Description}
+                        </p>
+                        <div className="flex flex-col gap-4">
+                            {ContactInfos?.map((item, i) => (
+                                <div
                                     key={i}
-                                    className="w-[36px] aspect-square rounded-full flex justify-center items-center bg-[#222222] text-white"
+                                    className="flex flex-row gap-4 items-center"
                                 >
-                                    <img src="/svg/relume.svg" alt="" />
-                                </button>
+                                    <img
+                                        loading="lazy"
+                                        src={item.image}
+                                        alt=""
+                                        className="w-[24px] aspect-square"
+                                    />
+                                    <p className="text-base">{item.title}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-3">
+                        <p className="text-base font-semibold">
+                            {Translation.Easy_Contact}:
+                        </p>
+                        <div className="flex flex-row gap-4">
+                            {Social.map((item, i) => (
+                                <Link to={item.url} key={i}>
+                                    <button
+                                        key={i}
+                                        className="w-[36px] aspect-square rounded-full flex justify-center items-center bg-[#222222] text-white"
+                                    >
+                                        <img
+                                            loading="lazy"
+                                            src={item.image}
+                                            alt=""
+                                        />
+                                    </button>
+                                </Link>
                             ))}
                         </div>
                     </div>
                 </div>
 
-                <form className="lg:w-[46%] w-full grid grid-cols-2 gap-4">
-                    <div className="xl:col-span-1 col-span-2 h-fit flex flex-col gap-2">
-                        <label className="text-base">NAME</label>
-                        <input
-                            type="text"
-                            className="h-[48px] w-full border rounded-lg border-[#222222] bg-white text-base px-[12px]"
-                        />
-                    </div>
-                    <div className="xl:col-span-1 col-span-2 h-fit flex flex-col gap-2">
-                        <label className="text-base">Phone number</label>
-                        <input
-                            type="number"
-                            className="h-[48px] w-full border rounded-lg border-[#222222] bg-white text-base px-[12px]"
-                        />
-                    </div>
-                    {SelectedPriceVariant !== 0 && (
-                        <div className="col-span-2 h-fit flex flex-col gap-2">
-                            <label htmlFor="selectField" className="text-base">
-                                SELECT OPTION
-                            </label>
-                            <div className="w-full ">
-                                <div className="relative h-[48px] w-full rounded-[8px] bg-gradient-to-r from-[#E6D535] to-[#E53535] p-[2px]">
-                                    <div className="h-full w-full bg-white rounded-[8px] border-r-[16px] border-white">
-                                        <select
-                                            value={SelectedPriceVariant}
-                                            onChange={(e) =>
-                                                setSelectedPriceVariant(
-                                                    +e.target.value
-                                                )
-                                            }
-                                            name="selectField"
-                                            id="selectField"
-                                            className="w-full h-full text-base px-[12px] rounded-[8px] border-0 focus:ring-0 focus:outline-none bg-transparent "
-                                        >
-                                            <option value="0">
-                                                Select an option
-                                            </option>
-                                            <option value="2">
-                                                Option One
-                                            </option>
-                                            <option value="3">
-                                                Option Two
-                                            </option>
-                                            <option value="4">
-                                                Option Three
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                    <div className="col-span-2 h-fit flex flex-col gap-2">
-                        <label className="text-base">Phone number</label>
-                        <textarea className="h-[180px] w-full border rounded-lg border-[#222222] bg-white text-base py-2 px-[12px]"></textarea>
-                    </div>
-                    <BlackBtn text="Submit" className="col-span-2 h-[48px]" />
-                </form>
+                <ContactForum />
             </div>
         </section>
     );

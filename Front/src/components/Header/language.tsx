@@ -1,4 +1,4 @@
-'use client'; // if you're using Next.js App Router (optional)
+'use client'; // for Next.js App Router
 
 import {
     Select,
@@ -8,35 +8,45 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { useEffect, useState } from 'react';
+import i18n from '@/helpers/i18n';
+import { useEffect } from 'react';
+import { useStore } from '@/helpers/StateManegment';
 
 export function LanguageSelect() {
-    const [language, setLanguage] = useState<string>('Az'); // default
-
+    // const [language, setLanguage] = useState<string>('az'); // lowercase ISO code
+    const language = useStore((state: any) => state.Lang);
+    const setLanguage = useStore((state: any) => state.setLang);
     // Load saved language from localStorage on first render
     useEffect(() => {
         const storedLang = localStorage.getItem('lang');
         if (storedLang) {
-            setLanguage(storedLang);
+            setLanguage(storedLang.toLowerCase());
+            document.documentElement.lang = storedLang.toLowerCase(); // update <html lang="">
+        } else {
+            document.documentElement.lang = 'az'; // default
         }
     }, []);
 
-    // Save language to localStorage whenever it changes
+    // Update language on change
     const handleChange = (value: string) => {
-        setLanguage(value);
-        localStorage.setItem('lang', value);
+        const langCode = value.toLowerCase(); // standard format
+        setLanguage(langCode);
+        localStorage.setItem('lang', langCode);
+        i18n.changeLanguage(value);
+
+        document.documentElement.lang = langCode; // update <html lang="">
     };
 
     return (
         <Select value={language} onValueChange={handleChange}>
-            <SelectTrigger className="w-full  border border-black">
+            <SelectTrigger className="w-full border border-black">
                 <SelectValue placeholder="Select Language" />
             </SelectTrigger>
-            <SelectContent className=" border border-black">
+            <SelectContent className="border border-black">
                 <SelectGroup>
-                    <SelectItem value="Az">Az</SelectItem>
-                    <SelectItem value="En">En</SelectItem>
-                    <SelectItem value="Ru">Ru</SelectItem>
+                    <SelectItem value="az">Az</SelectItem>
+                    <SelectItem value="en">En</SelectItem>
+                    <SelectItem value="ru">Ru</SelectItem>
                 </SelectGroup>
             </SelectContent>
         </Select>

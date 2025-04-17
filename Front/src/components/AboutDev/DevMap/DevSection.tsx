@@ -1,9 +1,12 @@
 import { motion } from 'framer-motion';
 import CardDevMap from './Card';
+import { DesStep } from '@/helpers/Requests/Types';
 
 export default function DevSection({
+    data,
     variat = 'left',
 }: {
+    data: DesStep;
     variat: 'left' | 'right';
 }) {
     const variants = {
@@ -40,14 +43,15 @@ export default function DevSection({
             data-scroll-section
             data-scroll
             data-scroll-speed="0.01"
-            className={`!z-40 ${containerStyles} h-fit items-center min-h-[330px] opacity-100 w-full ${paddingStyles}`}
+            className={`!z-40 ${containerStyles} h-fit items-center min-h-[330px] opacity-100 w-full ${paddingStyles} max-sm:min-h-0 max-sm:h-fit`}
         >
             <motion.div
                 initial={variants[variat].initial}
                 whileInView={variants[variat].animate}
                 viewport={{ once: true, amount: 0.3 }}
+                className="max-sm:w-full"
             >
-                <CardDevMap />
+                <CardDevMap data={data} iswhite={variat === 'left'} />
             </motion.div>
         </section>
     );

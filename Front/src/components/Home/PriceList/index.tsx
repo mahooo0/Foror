@@ -1,8 +1,9 @@
+import { useTranslation } from 'react-i18next';
 import PricingTable from './table';
 
 export default function PriceList() {
     const loading = false;
-
+    const { t } = useTranslation();
     return (
         <section
             data-scroll-section
@@ -18,11 +19,15 @@ export default function PriceList() {
                     </div>
                 ) : (
                     <>
-                        <p className="text-base font-semibold">Portfolio</p>
-                        <h2 className="text-5xl font-bold">Services</h2>
-                        <h3 className="text-[18px] max-sm:text-base font-medium opacity-60">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit.
+                        <p className="text-base font-semibold">
+                            {t('Price_pre_title')}
+                        </p>
+                        <h2 className="text-5xl font-bold">
+                            {' '}
+                            {t('Price_title')}
+                        </h2>
+                        <h3 className="text-[18px] text-center max-sm:text-base font-medium opacity-60">
+                            {t('Price_desc')}
                         </h3>
                     </>
                 )}

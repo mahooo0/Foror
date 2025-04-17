@@ -2,6 +2,7 @@ export default function AnimationBG() {
     return (
         <>
             <img
+                loading="lazy"
                 src="/svg/devMap.svg"
                 alt=""
                 className=" absolute top-[150px]  w-auto  max-sm:hidden  "

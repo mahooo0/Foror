@@ -1,9 +1,18 @@
+import GETRequest from '@/helpers/Requests/Query';
 import DevSection from './DevSection';
 import AnimationBG from './animationBG';
+import { DesStep } from '@/helpers/Requests/Types';
+import { useStore } from '@/helpers/StateManegment';
+import { useTranslation } from 'react-i18next';
 
 export default function DevMap() {
-    let isLoading = false;
-
+    const language = useStore((state) => state.Lang);
+    const { t } = useTranslation();
+    const { data: devsteps, isLoading } = GETRequest<DesStep[]>(
+        'devsteps',
+        'devsteps',
+        [language]
+    );
     if (isLoading) {
         // ⛔ Skeleton View
         return (
@@ -48,7 +57,9 @@ export default function DevMap() {
 
     return (
         <section className="">
-            <h2 className="text-5xl font-bold text-center">Services</h2>
+            <h2 className="text-5xl font-bold text-center">
+                {t('Development Proces')}
+            </h2>
 
             <div
                 data-scroll-section
@@ -58,8 +69,15 @@ export default function DevMap() {
                 <div
                     data-scroll
                     data-scroll-speed="0.3"
-                    className="flex flex-col w-full max-sm:gap-4   gap-0 "
+                    className="flex flex-col w-full max-sm:gap-4   gap-0  max-sm:py-[40px]"
                 >
+                    {devsteps?.map((item, i) => (
+                        <DevSection
+                            data={item}
+                            variat={`${i % 2 ? 'right' : 'left'}`}
+                        />
+                    ))}
+                    {/* <DevSection variat="right" />
                     <DevSection variat="left" />
                     <DevSection variat="right" />
                     <DevSection variat="left" />
@@ -67,9 +85,7 @@ export default function DevMap() {
                     <DevSection variat="left" />
                     <DevSection variat="right" />
                     <DevSection variat="left" />
-                    <DevSection variat="right" />
-                    <DevSection variat="left" />
-                    <DevSection variat="right" />
+                    <DevSection variat="right" /> */}
                 </div>
             </div>
         </section>

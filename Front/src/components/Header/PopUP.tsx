@@ -5,13 +5,23 @@ import { LanguageSelect } from './language';
 import { Link } from 'react-router-dom';
 import { useStore } from '@/helpers/StateManegment';
 import { scrollToId } from '@/helpers/Scroll/ScrollTo';
+import { useTranslation } from 'react-i18next';
+import GETRequest from '@/helpers/Requests/Query';
+import { ServiceItem } from '@/helpers/Requests/Types';
 
 export default function PopUP() {
     const isOpen = useStore((state: any) => state.isMobilePOPupOpen);
     const setIsOpen = useStore((state: any) => state.setIsMobilePOPupOpen);
     const popupRef = useRef<HTMLDivElement | null>(null);
     const buttonRef = useRef<HTMLButtonElement | null>(null);
+    const { t } = useTranslation();
+    const language = useStore((state) => state.Lang);
 
+    const { data: services } = GETRequest<ServiceItem[]>(
+        'services',
+        'services',
+        [language]
+    );
     // 👇 Detect clicks outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -40,7 +50,7 @@ export default function PopUP() {
     return (
         <div className="hidden max-lg:block font_base">
             <button ref={buttonRef} onClick={() => setIsOpen(!isOpen)}>
-                <img src="/svg/headerPOP.svg" alt="" />
+                <img loading="lazy" src="/svg/headerPOP.svg" alt="" />
             </button>
             <div
                 ref={popupRef}
@@ -57,42 +67,30 @@ export default function PopUP() {
                     <ul className="flex flex-col gap-4">
                         <li>
                             <Link onClick={() => setIsOpen(false)} to={'/'}>
-                                Home
+                                {t('Home')}
                             </Link>
                         </li>
                         <li>
                             <MobileSelect
-                                title="Xidmətlərimiz"
-                                options={[
-                                    {
-                                        title: 'Veb saytların hazırlanması',
-                                        link: '/service/id',
-                                    },
-                                    {
-                                        title: 'Veb saytlara texniki dəstək',
-                                        link: '/about-development',
-                                    },
-                                    {
-                                        title: 'Korporativ mail xidməti',
-                                        link: '/about-development',
-                                    },
-                                    {
-                                        title: 'Online ödəmə sistemi inteqrasiyası',
-                                        link: '/about-development',
-                                    },
-                                ]}
+                                title={t('Services')}
+                                options={services?.map((item) => {
+                                    return {
+                                        title: item.title,
+                                        link: `/service/${item.slug[language]}`,
+                                    };
+                                })}
                             />
                         </li>
                         <li>
                             <MobileSelect
-                                title="Haqqımızda"
+                                title={t('Haqqımızda')}
                                 options={[
                                     {
-                                        title: 'Haqqımızda',
+                                        title: t('Haqqımızda'),
                                         link: '/about',
                                     },
                                     {
-                                        title: 'Proqramlasdirma haqqinda',
+                                        title: t('Proqramlasdirma haqqinda'),
                                         link: '/about-development',
                                     },
                                 ]}
@@ -103,7 +101,7 @@ export default function PopUP() {
                                 onClick={() => setIsOpen(false)}
                                 to={'/blogs'}
                             >
-                                Blog
+                                {t('Blog')}
                             </Link>
                         </li>
                         <li>
@@ -111,7 +109,7 @@ export default function PopUP() {
                                 onClick={() => setIsOpen(false)}
                                 to={'/worcks'}
                             >
-                                Portfolio
+                                {t('Portfolio')}
                             </Link>
                         </li>
                         <li>
@@ -120,7 +118,7 @@ export default function PopUP() {
                                     setIsOpen(false), scrollToId('contact');
                                 }}
                             >
-                                Contact
+                                {t('Contact')}
                             </button>
                         </li>
                         <li>
@@ -129,14 +127,14 @@ export default function PopUP() {
                                 onClick={() => setIsOpen(false)}
                                 to={'/price-list'}
                             >
-                                Price List
+                                {t('Price List')}
                             </Link>
                         </li>
                         <BlackBtn
                             action={() => {
                                 setIsOpen(false), scrollToId('contact');
                             }}
-                            text="Qiymet teklifi al"
+                            text={t('teklif_al')}
                             className="hidden max-md:block"
                         />
                         <Link

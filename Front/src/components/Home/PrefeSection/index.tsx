@@ -1,10 +1,22 @@
+import GETRequest from '@/helpers/Requests/Query';
 import Card1 from './Card1';
 import Card2 from './Card2';
 import Card3 from './Card3';
 import Card4 from './Card4';
+import { useStore } from '@/helpers/StateManegment';
+import { Prefe } from '@/helpers/Requests/Types';
+import { useTranslation } from 'react-i18next';
 
 export default function PrefeSection() {
-    const loading = false;
+    const language = useStore((state) => state.Lang);
+
+    const { data: Prefe, isLoading: PrefeLoading } = GETRequest<Prefe[]>(
+        'home/prefe',
+        'home/prefe',
+        [language]
+    );
+    const loading = PrefeLoading;
+    const { t } = useTranslation();
 
     return (
         <section
@@ -21,7 +33,7 @@ export default function PrefeSection() {
                 ) : (
                     <>
                         <h2 className="text-5xl max-sm:text-2xl font-bold w-fit">
-                            Perfect for{' '}
+                            {t('Perfect for')}{' '}
                         </h2>
                     </>
                 )}
@@ -36,12 +48,12 @@ export default function PrefeSection() {
                               className="w-[100px] h-[38px] bg-gray-200 animate-pulse rounded-3xl"
                           />
                       ))
-                    : Array.from({ length: 10 }).map((_, index) => (
+                    : Prefe?.map((item, index) => (
                           <p
                               key={index}
                               className="px-[30px] py-[9px] border border-black/20 rounded-3xl"
                           >
-                              Startups
+                              {item.title}
                           </p>
                       ))}
             </div>

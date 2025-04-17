@@ -27,6 +27,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
         <div className="flex size-full flex-col items-center justify-start">
             <a href={url} className="mb-6 w-full">
                 <img
+                    loading="lazy"
                     src={image.src}
                     alt={image.alt || 'blog image'}
                     className="aspect-video size-full object-cover rounded-xl"

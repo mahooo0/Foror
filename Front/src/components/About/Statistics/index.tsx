@@ -1,36 +1,24 @@
-import React from 'react';
+import GETRequest from '@/helpers/Requests/Query';
+import { Statistics as StatisticsType } from '@/helpers/Requests/Types';
+import { useStore } from '@/helpers/StateManegment';
+import { useTranslation } from 'react-i18next';
 
-type ImageProps = {
-    src: string;
-    alt?: string;
-};
+export const Statistics = () => {
+    const { t } = useTranslation();
 
-type StatsProps = {
-    title: string;
-    description: string;
-};
+    const language = useStore((state) => state.Lang);
 
-type Props = {
-    heading: string;
-    stats: StatsProps[];
-    description: string;
-    image: ImageProps;
-};
-
-export type Layout118Props = React.ComponentPropsWithoutRef<'section'> &
-    Partial<Props>;
-
-const isLoading = false; // <-- toggle this to true to see the skeleton
-
-export const Statistics = (props: Layout118Props) => {
-    const { heading, description, stats } = {
-        ...Layout118Defaults,
-        ...props,
-    };
-
+    const { data: Data, isLoading } = GETRequest<StatisticsType[]>(
+        'statistics',
+        'statistics',
+        [language]
+    );
     if (isLoading) {
         return (
-            <section id="relume" className="px-[5%] pt-[40px] animate-pulse">
+            <section
+                id="relume"
+                className="px-[5%] pt-[40px] animate-pulse  w-full  flex justify-center"
+            >
                 <div className="container">
                     <div className="mb-12 flex flex-col text-center items-start justify-between gap-x-12 gap-y-5 md:mb-18 md:grid-cols-2 md:gap-x-12 md:gap-y-8 lg:mb-20 lg:gap-x-20">
                         <div className="flex flex-col gap-4 w-full justify-center items-center">
@@ -59,27 +47,32 @@ export const Statistics = (props: Layout118Props) => {
     }
 
     return (
-        <section id="relume" className="px-[5%] pt-[40px]">
+        <section
+            id="relume"
+            className="px-[5%] pt-[40px] w-full  flex justify-center"
+        >
             <div className="container">
                 <div className="mb-12 flex flex-col text-center items-start justify-between gap-x-12 gap-y-5 md:mb-18 md:grid-cols-2 md:gap-x-12 md:gap-y-8 lg:mb-20 lg:gap-x-20">
                     <div className="flex flex-col gap-4">
                         <h3 className="text-3xl font-bold leading-[1.2] md:text-5xl lg:text-6xl">
-                            {heading}
+                            {t('Statistics_title')}
                         </h3>
-                        <p className="mb-6 md:mb-8 md:text-lg">{description}</p>
+                        <p className="mb-6 md:mb-8 md:text-lg">
+                            {t('Statistics_description')}
+                        </p>
                     </div>
                     <div className="w-full">
                         <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 grid-flow-row-dense justify-center gap-6 py-2">
-                            {stats.map((stat, index) => (
+                            {Data?.map((stat, index) => (
                                 <div
                                     key={index}
                                     className="w-full col-span-1 justify-self-auto"
                                 >
                                     <h3 className="mb-2 text-5xl font-bold md:text-7xl lg:text-8xl">
-                                        {stat.title}
+                                        {stat.value}
                                     </h3>
                                     <p className="text-base">
-                                        {stat.description}
+                                        {stat.desctiption}
                                     </p>
                                 </div>
                             ))}
@@ -89,36 +82,4 @@ export const Statistics = (props: Layout118Props) => {
             </div>
         </section>
     );
-};
-
-export const Layout118Defaults: Props = {
-    heading: 'Long heading is what you see here in this feature section',
-    description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.',
-    image: {
-        src: 'https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg',
-        alt: 'Relume placeholder image',
-    },
-    stats: [
-        {
-            title: '50%',
-            description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        },
-        {
-            title: '50%',
-            description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        },
-        {
-            title: '50%',
-            description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        },
-        {
-            title: '50%',
-            description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        },
-    ],
 };

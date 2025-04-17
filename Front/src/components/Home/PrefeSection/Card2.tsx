@@ -1,7 +1,10 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function Card2() {
     const [isHover, setIsHover] = React.useState(false);
+    const { t } = useTranslation();
+
     return (
         <div
             className={`h-[360px] max-sm:h-[400px]  xl:col-span-9 lg:col-span-8 col-span-12 ${
@@ -12,6 +15,7 @@ export default function Card2() {
         >
             <div className=" w-full h-full  absolute top-[-24%] max-sm:top-[-70%] right-[-5%] z-0 blur-xl flex justify-end items-end overflow-hidden">
                 <img
+                    loading="lazy"
                     src="/images/Card2.png"
                     alt=""
                     className={`w-[85%] object-cover ${
@@ -19,10 +23,10 @@ export default function Card2() {
                     }  duration-700`}
                 />
             </div>
-            <p className="text-[32px] font-semibold z-10">Includes </p>
+            <p className="text-[32px] font-semibold z-10">{t('Includes')} </p>
             <div className="w-full flex justify-between md:items-end items-start z-10 md:flex-row flex-col gap-[12px]">
                 <p className="z-10 xl:text-[24px] text-[20px] w-[180px]">
-                    Custom Design and Development
+                    {t('Custom_Design')}
                 </p>
                 <div className="flex gap-[12px] h-full">
                     <div className="p-[14px] bg-black/8 rounded-[8px] flex flex-col justify-between items-center text-center gap-[90px] max-sm:gap-10 xl:max-w-[150px] lg:max-w-[100px] md:max-w-[120px] max-w-[29%]">
@@ -30,23 +34,24 @@ export default function Card2() {
                             ADMIN PANEL
                         </p>
                         <p className="xl:text-base lg:text-[12px] text-base max-sm:text-sm">
-                            For Website Managment
+                            {t('For Website Managment')}
                         </p>
                     </div>
                     <div className="p-[14px] bg-black/8 rounded-[8px] flex flex-col h-full justify-between items-center text-center gap-[90px] max-sm:gap-10 xl:max-w-[150px] lg:max-w-[100px] md:max-w-[120px] max-w-[29%]">
                         <img
+                            loading="lazy"
                             src="/svg/language.svg"
                             alt=""
                             className="w-[50px] aspect-square"
                         />{' '}
-                        <p>Multi Langulart</p>
+                        <p> {t('Multi Langulart')}</p>
                     </div>
                     <div className="p-[14px] bg-black/8 rounded-[8px] h-full flex flex-col justify-between items-center text-center gap-[90px] max-sm:gap-10 xl:max-w-[150px] lg:max-w-[100px] md:max-w-[120px] max-w-[29%]">
                         <p className=" xl:text-[24px] text-[20px] max-sm:text-base font-semibold">
                             SEO
                         </p>
                         <p className="xl:text-base lg:text-[12px] text-base max-sm:text-sm">
-                            For Website Managment
+                            {t('promotion')}
                         </p>{' '}
                     </div>
                 </div>

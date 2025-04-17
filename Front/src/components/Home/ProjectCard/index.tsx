@@ -1,42 +1,58 @@
-export default function ProjectCard() {
+import { PortfolioItem } from '@/helpers/Requests/Types';
+import { useStore } from '@/helpers/StateManegment';
+import { useTranslation } from 'react-i18next';
+
+export default function ProjectCard({ data }: { data: PortfolioItem }) {
+    const language = useStore((state) => state.Lang);
+    const { t } = useTranslation();
+
     return (
         <a
-            href="#"
+            href={data.isdetail ? `/worck/${data.slug[language]}` : data.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => {
+                localStorage.setItem('slug', JSON.stringify(data.slug));
+            }}
             className="flex size-full flex-col items-center justify-start border border-border-primary"
         >
             <div className="relative w-full overflow-hidden pt-[66%]">
-                <img
-                    src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-                    alt="Relume placeholder image 1"
-                    className="absolute inset-0 size-full object-cover"
-                />
+                {data.isdetail ? (
+                    <img
+                        loading="lazy"
+                        src={data.image}
+                        alt="Relume placeholder image 1"
+                        className="absolute inset-0  w-full object-top  "
+                    />
+                ) : (
+                    <img
+                        loading="lazy"
+                        src={data.image}
+                        alt="Relume placeholder image 1"
+                        className="absolute inset-0 size-full object-cover "
+                    />
+                )}
             </div>
             <div className="flex w-full flex-1 flex-col justify-between px-5 py-6 md:p-6">
                 <div className="flex w-full flex-col items-start justify-start">
                     <h2 className="mb-2 text-xl font-bold md:text-2xl">
-                        Blog title heading will go here
+                        {data.title}
                     </h2>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Suspendisse varius enim in eros.
-                    </p>
+                    <p>{data.description}</p>
 
                     <div className="flex flex-wrap gap-2 mt-4">
-                        <p className="bg-background-secondary px-2 py-1 bg-[#EEEEEE] text-sm font-semibold">
-                            Category
-                        </p>{' '}
-                        <p className="bg-background-secondary px-2 py-1 bg-[#EEEEEE] text-sm font-semibold">
-                            Category
-                        </p>{' '}
-                        <p className="bg-background-secondary px-2 py-1 bg-[#EEEEEE] text-sm font-semibold">
-                            Category
-                        </p>
+                        {data.categories.map((item) => (
+                            <p className="bg-background-secondary px-2 py-1 bg-[#EEEEEE] text-sm font-semibold">
+                                {item.title[language]}
+                            </p>
+                        ))}
                     </div>
                     <button
                         className="focus-visible:ring-border-primary whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0 mt-6 flex items-center justify-center gap-x-1"
                         title="Read more"
                     >
-                        Life site
+                        {data.isdetail ? t('show page') : t('Life site')}
+
                         <svg
                             stroke="currentColor"
                             fill="none"

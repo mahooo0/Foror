@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import WhiteBtn from '@/components/Buttons';
 import { Link } from 'react-router-dom';
 import { useStore } from '@/helpers/StateManegment';
@@ -17,13 +16,7 @@ export default function AboutSection() {
         [language]
     );
     return (
-        <motion.section
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            viewport={{ once: true, amount: 0.3 }}
-            className="flex flex-row max-lg:flex-col font-sans lg:px-[100px] md:px-[30px] px-[12px] gap-10 items-center justify-center"
-        >
+        <section className="flex flex-row max-lg:flex-col font-sans lg:px-[100px] md:px-[30px] px-[12px] gap-10 items-center justify-center">
             {loading ? (
                 <div className="bg-gray-300 animate-pulse w-[50%] max-lg:w-full max-lg:aspect-[2/1] max-md:aspect-square aspect-square rounded-xl" />
             ) : (
@@ -73,6 +66,6 @@ export default function AboutSection() {
                     </>
                 )}
             </article>
-        </motion.section>
+        </section>
     );
 }

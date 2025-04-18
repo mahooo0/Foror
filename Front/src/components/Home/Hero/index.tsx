@@ -16,13 +16,9 @@ export default function Hero() {
         [language]
     );
     return (
-        <motion.section
-            data-scroll-section
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
+        <section
             className="relative overflow-hidden max-sm:max-h-screen h-fit border-b border-black/20"
-            style={{ willChange: 'opacity, transform' }}
+            // style={{ willChange: 'opacity, transform' }}
         >
             <div
                 style={{
@@ -43,44 +39,23 @@ export default function Hero() {
                         </div>
                     ) : (
                         <>
-                            <motion.p
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2 }}
-                                className="lg:text-base md:text-[12px] max-sm:font-medium max-sm:text-[10px] font-bold"
-                            >
+                            <p className="lg:text-base md:text-[12px] max-sm:font-medium max-sm:text-[10px] font-bold">
                                 ✦  {Hero?.preTitle}
-                            </motion.p>
+                            </p>
 
-                            <motion.h1
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.3 }}
-                                className="xl:text-[44px] lg:text-[36px] md:text-[30px] max-sm:text-[32px] max-lg:text-[36px] font-bold"
-                            >
+                            <h1 className="xl:text-[44px] lg:text-[36px] md:text-[30px] max-sm:text-[32px] max-lg:text-[36px] font-bold">
                                 {Hero?.title}
-                            </motion.h1>
+                            </h1>
 
-                            <motion.h2
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.4 }}
-                                className="lg:text-[14px] md:text-[12px] max-sm:text-[11px] max-w-[680px] opacity-60"
-                            >
+                            <h2 className="lg:text-[14px] md:text-[12px] max-sm:text-[11px] max-w-[680px] opacity-60">
                                 {Hero?.description}
-                            </motion.h2>
+                            </h2>
 
-                            <motion.div
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.5 }}
-                            >
-                                <BlackBtn
-                                    action={() => scrollToId('contact')}
-                                    text={t('teklif_al')}
-                                    className="w-fit font-sans !px-8 !py-5 shadow-2xl rounded-[8px] !text-[18px] max-sm:!px-[24px] max-sm:!py-[12px] max-sm:!text-[14px]"
-                                />
-                            </motion.div>
+                            <BlackBtn
+                                action={() => scrollToId('contact')}
+                                text={t('teklif_al')}
+                                className="w-fit font-sans !px-8 !py-5 shadow-2xl rounded-[8px] !text-[18px] max-sm:!px-[24px] max-sm:!py-[12px] max-sm:!text-[14px]"
+                            />
                         </>
                     )}
                 </article>
@@ -118,7 +93,7 @@ export default function Hero() {
                         >
                             <img
                                 loading="lazy"
-                                src={`/images/heroMobile_${language}.png`}
+                                src={`/images/heroMobile_${language}.webp`}
                                 alt="Hero small"
                                 className="w-full"
                             />
@@ -135,6 +110,6 @@ export default function Hero() {
                     backgroundSize: '6%',
                 }}
             ></div>
-        </motion.section>
+        </section>
     );
 }

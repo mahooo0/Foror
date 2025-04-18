@@ -69,6 +69,7 @@ export default function Home() {
                     content="https://example.com/your-image.jpg"
                 />
                 {/* Favicon link */}
+                <meta name="robots" content="index, follow" />
 
                 <link rel="icon" href="/svg/logoMain.svg" type="image/x-icon" />
 

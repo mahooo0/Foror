@@ -1,8 +1,12 @@
 import { useStore } from '@/helpers/StateManegment';
-import DesctopContent from './DexctopContent';
-import MobileContect from './MobileContect';
+// import DesctopContent from './DexctopContent';
 import GETRequest from '@/helpers/Requests/Query';
 import { Bunner } from '@/helpers/Requests/Types';
+import { lazy, Suspense } from 'react';
+
+// Lazy load components
+const MobileContect = lazy(() => import('./MobileContect'));
+const DesctopContent = lazy(() => import('./DexctopContent'));
 
 export default function ServicesSection() {
     const language = useStore((state) => state.Lang);
@@ -12,6 +16,7 @@ export default function ServicesSection() {
         'home/services',
         [language]
     );
+
     return (
         <section data-scroll-section>
             <header className="flex flex-col items-center gap-4 text-[#222222] mb-10 lg:px-[100px] md:px-[60px] px-[12px]">
@@ -31,8 +36,13 @@ export default function ServicesSection() {
                 )}
             </header>
 
-            <DesctopContent loading={loading} />
-            <MobileContect loading={loading} />
+            {/* Wrap lazy-loaded components with Suspense */}
+            <Suspense fallback={<div>Loading content...</div>}>
+                <DesctopContent loading={loading} />
+            </Suspense>
+            <Suspense fallback={<div>Loading mobile content...</div>}>
+                <MobileContect loading={loading} />
+            </Suspense>
         </section>
     );
 }

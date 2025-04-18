@@ -5,7 +5,7 @@ import { useStore } from '@/helpers/StateManegment';
 import { Blog } from '@/helpers/Requests/Types';
 
 export default function BlogDetailHero() {
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
     const { slug } = useParams();
     const { data: Blog, isLoading } = GETRequest<Blog>(
         `blog-detail/${slug}`,

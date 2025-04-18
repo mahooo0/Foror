@@ -9,7 +9,7 @@ const MobileContect = lazy(() => import('./MobileContect'));
 const DesctopContent = lazy(() => import('./DexctopContent'));
 
 export default function ServicesSection() {
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
 
     const { data: Data, isLoading: loading } = GETRequest<Bunner>(
         'home/services',

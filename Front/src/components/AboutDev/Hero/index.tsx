@@ -20,7 +20,7 @@ export type Layout3Props = React.ComponentPropsWithoutRef<'section'> &
     Partial<Props>;
 
 export const AboutDevHero = () => {
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
 
     const { data: Data, isLoading } = GETRequest<AbutDev>('rewue', 'rewue', [
         language,

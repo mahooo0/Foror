@@ -15,7 +15,7 @@ export default function PopUP() {
     const popupRef = useRef<HTMLDivElement | null>(null);
     const buttonRef = useRef<HTMLButtonElement | null>(null);
     const { t } = useTranslation();
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
 
     const { data: services } = GETRequest<ServiceItem[]>(
         'services',

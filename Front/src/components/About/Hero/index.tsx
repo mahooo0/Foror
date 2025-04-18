@@ -5,7 +5,7 @@ import { Bunner } from '@/helpers/Requests/Types';
 import { useTranslation } from 'react-i18next';
 
 export default function AboutHero() {
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
     const { t } = useTranslation();
 
     const { data: Data, isLoading } = GETRequest<Bunner>(

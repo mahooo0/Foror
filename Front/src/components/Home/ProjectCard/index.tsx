@@ -3,7 +3,7 @@ import { useStore } from '@/helpers/StateManegment';
 import { useTranslation } from 'react-i18next';
 
 export default function ProjectCard({ data }: { data: PortfolioItem }) {
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
     const { t } = useTranslation();
 
     return (

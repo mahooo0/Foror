@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 export default function Blogs() {
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
     const { t } = useTranslation();
     const { page = 1 } = useParams();
 

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 export const Statistics = () => {
     const { t } = useTranslation();
 
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
 
     const { data: Data, isLoading } = GETRequest<StatisticsType[]>(
         'statistics',

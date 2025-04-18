@@ -9,7 +9,7 @@ import { BlogResponse } from '@/helpers/Requests/Types';
 
 const BlogsSwipper = () => {
     const swiperRef = useRef<SwiperCore | null>(null);
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
     // const navigate = useNavigate();
     const { data: Blogs, isLoading } = GETRequest<BlogResponse>(
         `blogs?page=${1}`,

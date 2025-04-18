@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 export default function AboutDevelopment() {
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
 
     // Fetching design tools and dev tools data
     const { data: desingData, isLoading } = GETRequest<Tool[]>(

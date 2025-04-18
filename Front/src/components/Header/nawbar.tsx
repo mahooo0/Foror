@@ -9,7 +9,7 @@ import { useStore } from '@/helpers/StateManegment';
 
 export default function Nawbar() {
     const { t } = useTranslation();
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
 
     const { data: services } = GETRequest<ServiceItem[]>(
         'services',

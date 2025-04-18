@@ -9,7 +9,7 @@ const LazySpline = React.lazy(() => import('@splinetool/react-spline'));
 
 export default function DesctopContent({ loading }: { loading: boolean }) {
     const [HoveredId, setHoveredId] = React.useState<number>(0);
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
 
     const { data: services } = GETRequest<ServiceItem[]>(
         'services',

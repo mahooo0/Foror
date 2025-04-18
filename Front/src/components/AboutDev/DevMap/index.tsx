@@ -6,7 +6,7 @@ import { useStore } from '@/helpers/StateManegment';
 import { useTranslation } from 'react-i18next';
 
 export default function DevMap() {
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
     const { t } = useTranslation();
     const { data: devsteps, isLoading } = GETRequest<DesStep[]>(
         'devsteps',

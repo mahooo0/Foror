@@ -16,7 +16,7 @@ const HoverCard = ({
     data: ServiceItem;
 }) => {
     const { t } = useTranslation();
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
 
     // Determine positioning based on `index`
     switch (index) {

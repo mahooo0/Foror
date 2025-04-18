@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
     // const [isLoading, setIsLoading] = useState(true);
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
     const { t } = useTranslation();
 
     const { data: ContactInfos, isLoading: contactLoading } = GETRequest<

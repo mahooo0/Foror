@@ -3,7 +3,7 @@ import { Bunner } from '@/helpers/Requests/Types';
 import { useStore } from '@/helpers/StateManegment';
 
 export default function ReviueSection() {
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
 
     const { data: Data, isLoading } = GETRequest<Bunner>('rewue', 'rewue', [
         language,

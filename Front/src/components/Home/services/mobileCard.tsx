@@ -13,7 +13,7 @@ export default function MobileCard({
     data: ServiceItem;
     index: number;
 }) {
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
     const { t } = useTranslation();
 
     if (isBlack) {

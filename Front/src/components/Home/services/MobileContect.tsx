@@ -5,7 +5,7 @@ import GETRequest from '@/helpers/Requests/Query';
 import { ServiceItem } from '@/helpers/Requests/Types';
 
 export default function MobileContect({ loading }: { loading: boolean }) {
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
 
     const { data: services } = GETRequest<ServiceItem[]>(
         'services',

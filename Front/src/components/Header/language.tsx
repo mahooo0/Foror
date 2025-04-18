@@ -44,9 +44,15 @@ export function LanguageSelect() {
             </SelectTrigger>
             <SelectContent className="border border-black">
                 <SelectGroup>
-                    <SelectItem value="az">Az</SelectItem>
-                    <SelectItem value="en">En</SelectItem>
-                    <SelectItem value="ru">Ru</SelectItem>
+                    <SelectItem value="az" key={'az'}>
+                        Az
+                    </SelectItem>
+                    <SelectItem value="en" key={'en'}>
+                        En
+                    </SelectItem>
+                    <SelectItem value="ru" key={'ru'}>
+                        Ru
+                    </SelectItem>
                 </SelectGroup>
             </SelectContent>
         </Select>

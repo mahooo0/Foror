@@ -8,7 +8,7 @@ import { Prefe } from '@/helpers/Requests/Types';
 import { useTranslation } from 'react-i18next';
 
 export default function PrefeSection() {
-    const language = useStore((state) => state.Lang);
+    const language = useStore((state) => state.Lang) || 'az';
 
     const { data: Prefe, isLoading: PrefeLoading } = GETRequest<Prefe[]>(
         'home/prefe',

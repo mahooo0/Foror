@@ -10,7 +10,6 @@ const DesctopContent = lazy(() => import('./DexctopContent'));
 
 export default function ServicesSection() {
     const language = useStore((state) => state.Lang) || 'az';
-
     const { data: Data, isLoading: loading } = GETRequest<Bunner>(
         'home/services',
         'home/services',
